@@ -1,5 +1,11 @@
 module SciMLFromScratch
 
-greet() = print("Hello World!")
+include("types.jl")
 
-end # module SciMLFromScratch
+include("problems/ode_problems.jl")
+
+include("integrators/euler.jl")
+
+export ForwardEuler, solve
+
+end
