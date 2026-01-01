@@ -10,8 +10,8 @@ function solve(prob::AbstractODEProblem, ::ForwardEuler; dt)
     us = Vector{typeof(u)}(undef, length(ts))
     us[1] = copy(u)
 
-    for (i, t) in enumerate(ts[1:end-1])
-        u += dt * f(u, p, t)
+    for i in length(ts)-1
+        @. u += dt * f(u, p, ts[i])
         us[i+1] = u
     end
 
