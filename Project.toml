@@ -2,3 +2,9 @@ name = "SciMLFromScratch"
 uuid = "92c3ecef-e40f-46ab-9b01-ca7e49742dcf"
 version = "0.1.0"
 authors = ["var-pi <stefanehin4@gmail.com>"]
+
+[deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+
+[compat]
+CairoMakie = "0.15.8"
