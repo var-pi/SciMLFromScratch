@@ -10,7 +10,7 @@ function _test()
     u0 = @SVector [1.0 + 0.1*i for i in 0:10]
     tspan = (0.0, 1.0)
     prob = ODEProblem(f, u0, tspan, nothing)
-    solve(prob, SciMLFromScratch.ForwardEuler(); dt = 1e-2)
+    solve(prob, SciMLFromScratch.ForwardEuler(); n = 101)
 end
 
 function test()
