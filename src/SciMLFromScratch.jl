@@ -1,7 +1,5 @@
 module SciMLFromScratch
 
-# how to import a static arrray?
-
 include("types.jl")
 
 include("problems/ode_problems.jl")
