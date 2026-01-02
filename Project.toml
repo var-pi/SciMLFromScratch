@@ -8,6 +8,7 @@ BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 EllipsisNotation = "da5c29d0-fa7d-589e-88eb-ea29b0a81949"
 InteractiveUtils = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
+RecursiveArrayTools = "731186ca-8d62-57ce-b412-fbd966d074cd"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
@@ -15,4 +16,5 @@ BenchmarkTools = "1.6.3"
 CairoMakie = "0.15.8"
 EllipsisNotation = "1.8.0"
 InteractiveUtils = "1.11.0"
+RecursiveArrayTools = "3.42.1"
 StaticArrays = "1.9.16"

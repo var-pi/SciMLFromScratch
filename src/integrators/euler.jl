@@ -1,6 +1,5 @@
 struct ForwardEuler <: AbstractODEAlgorithm end
 using EllipsisNotation
-import StaticArrays
 
 function solve(prob::AbstractODEProblem, ::ForwardEuler; dt)
     f = get_f(prob)
