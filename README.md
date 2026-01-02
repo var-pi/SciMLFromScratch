@@ -8,9 +8,9 @@ The primary objective of this repository is to pull back the curtain on high-per
 ## 🚀 Current Features
 
 ### Numerical Integrators
-> *IIP:* We suport only inplace functions. 
-> *SaveEveryStep:* We save all the intermediary values.
-> *SArray:* We support only SArray as input as the target problems are low-dimensional.
+> *SaveEveryStep:* To simplify the implementation, we save all the intermediary values.
+> *SArray:* As the target problems are low-dimensional, we support only SArray as input.
+> *IIP:* In order to perform operations on the stack, we do not suport inplace functions.
 
 - [ ] **Forward Euler Method**: The fundamental building block of numerical integration for Initial Value Problems (IVPs).
 > *Goal:* Implement it to be as quick as possible.

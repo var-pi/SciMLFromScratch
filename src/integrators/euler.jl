@@ -1,25 +1,19 @@
 struct ForwardEuler <: AbstractODEAlgorithm end
-using EllipsisNotation
+using InteractiveUtils
 
-function solve(prob::AbstractODEProblem, ::ForwardEuler; dt)
-    f = get_f(prob)
-    u₀ = get_u₀(prob)
-    t₀, t₁ = get_tspan(prob)
-    p = get_p(prob)
+function solve(prob::ODEProblem{F, U, T, P}, ::ForwardEuler; dt) where {F, U, T, P}
+    (; f, u0, tspan, p) = prob
+    t0, t1 = tspan
 
-    ts = t₀:dt:t₁
-    n = length(ts)
-    us = zeros(typeof(similar(u₀)), n)
-    us[1] .= u₀
+    n = Int(fld(t1 - t0, dt)) + 1
+    us = Vector{U}(undef, n)
+    us[1] = u0
 
-    u = similar(u₀)
-    u .= u₀
-    u̇ = similar(u₀)
-    for i in 1:(n-1)
-        f(u̇, u, p, ts[i])
-        @. u = u + dt * u̇
-        us[i+1] .= u
+    t = t0
+    @fastmath for i in 1:(n-1)
+        us[i+1] = us[i] + dt * f(us[i], p, t)
+        t += dt
     end
 
-    (t=ts, u=us)
+    (t=t0:dt:t1, u=us)
 end

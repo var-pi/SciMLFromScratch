@@ -1,16 +1,16 @@
 using BenchmarkTools
-using StaticArrays: SVector, SArray
+using StaticArrays: @SVector, SArray
 using CairoMakie: lines!, Figure, Axis
 using EllipsisNotation
 using InteractiveUtils
 
+f(u, p, t) = 2 * u
+
 function _test()
-    function f(u̇, u, p, t)
-        @. u̇ = 2 * u
-        nothing
-    end
-    prob = ODEProblem(f, SArray{Tuple{2, 3}}([1.0 2.0 5.0; 3.0 4.0 6.0]), (0, 1), nothing)
-    solve(prob, SciMLFromScratch.ForwardEuler(); dt = 1e-3)
+    u0 = @SVector [1.0 + 0.1*i for i in 0:10]
+    tspan = (0.0, 1.0)
+    prob = ODEProblem(f, u0, tspan, nothing)
+    solve(prob, SciMLFromScratch.ForwardEuler(); dt = 1e-2)
 end
 
 function test()
