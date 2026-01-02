@@ -10,8 +10,8 @@ function solve(prob::AbstractODEProblem, ::ForwardEuler; dt)
 
     ts = t₀:dt:t₁
     n = length(ts)
-    us = Array{eltype(u₀)}(undef, size(u₀)..., n)
-    us[.., 1] .= u₀
+    us = zeros(typeof(similar(u₀)), n)
+    us[1] .= u₀
 
     u = similar(u₀)
     u .= u₀
@@ -19,7 +19,7 @@ function solve(prob::AbstractODEProblem, ::ForwardEuler; dt)
     for i in 1:(n-1)
         f(u̇, u, p, ts[i])
         @. u = u + dt * u̇
-        us[.., i+1] .= u
+        us[i+1] .= u
     end
 
     (t=ts, u=us)

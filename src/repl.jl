@@ -9,10 +9,10 @@ function _test()
         @. u̇ = 2 * u
         nothing
     end
-    prob = ODEProblem(f, SArray{Tuple{2, 2}}([1.0 2.0; 3.0 4.0]), (0, 1), nothing)
-    @code_warntype solve(prob, SciMLFromScratch.ForwardEuler(); dt = 1e-2)
+    prob = ODEProblem(f, SArray{Tuple{2, 3}}([1.0 2.0 5.0; 3.0 4.0 6.0]), (0, 1), nothing)
+    solve(prob, SciMLFromScratch.ForwardEuler(); dt = 1e-3)
 end
 
 function test()
-    _test()
+    @btime _test()
 end
