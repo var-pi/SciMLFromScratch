@@ -1,6 +1,6 @@
 # SciML from Scratch
 
-A pedagogical library featuring [**ODE Solvers**](https://en.wikipedia.org/wiki/Numerical_methods_for_ordinary_differential_equations) and [**Optimization Algorithms**](https://en.wikipedia.org/wiki/Mathematical_optimization), built entirely in [Julia](https://julialang.org).
+A pedagogical library featuring [**Numerical Integrators**](https://www.sciencedirect.com/topics/engineering/numerical-integrator) and [**Optimization Algorithms**](https://en.wikipedia.org/wiki/Mathematical_optimization), built entirely in [Julia](https://julialang.org).
 
 ## 🎯 Project Goal
 The primary objective of this repository is to demystify high-performance libraries like [SciML](https://github.com/SciML). By implementing these algorithms from the ground up, this project serves as a deep dive into their mathematical foundations, stability considerations, and Julia-specific dispatch patterns that make the scientific ecosystem so efficient.
