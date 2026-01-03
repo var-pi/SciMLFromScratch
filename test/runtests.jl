@@ -4,12 +4,11 @@ using SciMLFromScratch
 
 @testset "ForwardEuler algorithm" begin
     # Linear scalar ODE: u̇ = λu, exact solution u(t) = u0 * exp(λt)
-    λ = 2.0
-    f(u, p, t) = λ * u
-
+    f = (u, p, t) -> p * u
     u0 = @SVector [1.0]
     tspan = (0.0, 1.0)
-    prob = ODEProblem(f, u0, tspan, nothing)
+    λ = 2.0
+    prob = ODEProblem(f, u0, tspan, λ)
 
     n = 3
     sol = solve(prob, ForwardEuler(); n = n)
