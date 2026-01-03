@@ -1,8 +1,9 @@
+using SciMLFromScratch: GradientDescent
 using Test
 using StaticArrays: @SVector
 using SciMLFromScratch
 
-@testset "ForwardEuler algorithm" begin
+@testset "Forward Euler" begin
     # Linear scalar ODE: u̇ = λu, exact solution u(t) = u0 * exp(λt)
     f = (u, p, t) -> p * u
     u0 = @SVector [1.0]
@@ -46,4 +47,17 @@ using SciMLFromScratch
         @test eltype(sol.u) === typeof(u0)
         @test sol.u isa Vector{typeof(u0)}
     end
+end
+
+@testset "Gradient Descent" begin 
+    
+    f = u -> u^2
+    u0 = [5]
+    p = nothing
+    grad = u -> 2u
+    prob = OptimizationProblem(f, u0, p, grad)
+    sol = solve(prob, GradientDescent())
+
+    @test abs(sol[1] - 0) < 1e-4 
+
 end
