@@ -6,8 +6,10 @@ include("problems/ode_problems.jl")
 
 include("integrators/euler.jl")
 
+include("solutions/ode_solutions.jl")
+
 include("repl.jl")
 
-export ForwardEuler, solve
+export solve, ODEProblem, ForwardEuler, ODESolution
 
 end

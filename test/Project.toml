@@ -1,0 +1,4 @@
+[deps]
+SciMLFromScratch = "92c3ecef-e40f-46ab-9b01-ca7e49742dcf"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
