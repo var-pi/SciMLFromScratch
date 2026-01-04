@@ -13,5 +13,5 @@ function solve(prob::AbstractODEProblem, alg::ForwardEuler; n)
         us[i+1] = us[i] + dt * f(us[i], p, ts[i])
     end
 
-    ODESolution(ts, us, prob, alg, :Success)
+    ODESolution(ts, us, :Success, prob, alg)
 end

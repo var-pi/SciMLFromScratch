@@ -9,6 +9,7 @@ include("integrators/euler.jl")
 include("optimizers/gd.jl")
 
 include("solutions/ode_solutions.jl")
+include("solutions/optimization_solution.jl")
 
 export solve, ODEProblem, ForwardEuler, ODESolution, OptimizationProblem, GradientDescent
 

@@ -2,7 +2,7 @@
 
 julia_version = "1.12.3"
 manifest_format = "2.0"
-project_hash = "048567ed8372bc460ccd421eae41680483d1f143"
+project_hash = "840d0af374b43d3a6cbdfdeb1293cd1d479c1f6b"
 
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
@@ -82,7 +82,7 @@ uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 version = "0.7.0"
 
 [[deps.SciMLFromScratch]]
-deps = ["StaticArrays"]
+deps = ["LinearAlgebra", "StaticArrays"]
 path = "/Users/var-pi/repo/SciMLFromScratch/"
 uuid = "92c3ecef-e40f-46ab-9b01-ca7e49742dcf"
 version = "0.1.0"
