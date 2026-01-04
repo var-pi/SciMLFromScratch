@@ -9,6 +9,6 @@ include("optimizers/gd.jl")
 
 include("solutions.jl")
 
-export solve, ODEProblem, ForwardEuler, ODESolution, OptimizationProblem, GradientDescent
+export solve, ODEProblem, ForwardEuler, ODESolution, OptimizationProblem, GradientDescent, OptimizationSolution
 
 end
