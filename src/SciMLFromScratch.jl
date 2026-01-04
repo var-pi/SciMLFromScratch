@@ -2,14 +2,12 @@ module SciMLFromScratch
 
 include("types.jl")
 
-include("problems/ode_problems.jl")
-include("problems/optimization_problem.jl")
+include("problems.jl")
 
 include("integrators/euler.jl")
 include("optimizers/gd.jl")
 
-include("solutions/ode_solutions.jl")
-include("solutions/optimization_solution.jl")
+include("solutions.jl")
 
 export solve, ODEProblem, ForwardEuler, ODESolution, OptimizationProblem, GradientDescent
 
