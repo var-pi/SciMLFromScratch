@@ -57,8 +57,9 @@ end
     p = nothing
     grad = (u, p) -> u * 2.0
     prob = OptimizationProblem(f, u0, p, grad)
-    solve(prob, GradientDescent(1e-5); abstol = 1e-5, maxiters = 10^7)
-    @time sol = solve(prob, GradientDescent(1e-5); abstol = 1e-5, maxiters = 10^7)
+    solve(prob, GradientDescent())
+    @time sol = solve(prob, GradientDescent())
+    println(sol.stats.niter)
 
     @test norm(sol.objective) < 1e-4 
 
