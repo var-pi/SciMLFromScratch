@@ -1,6 +1,6 @@
 using SciMLFromScratch: GradientDescent
 using Test
-using StaticArrays: @SVector
+using StaticArrays: @SVector, @SArray
 using SciMLFromScratch
 using LinearAlgebra: norm
 
@@ -51,19 +51,30 @@ using LinearAlgebra: norm
 end
 
 @testset "Gradient Descent" begin 
-    f = (u, p) -> u .^ 2.0
-    u0 = @SVector [1.0, 2.0]
-    p = nothing
-    grad = (u, p) -> 2.0u
-    prob = OptimizationProblem(f, u0, p, grad)
-    alg = GradientDescent()
-    sol = solve(prob, alg)
 
-    @test norm(sol.u) < 1e-6
-    @test norm(sol.objective) < 1e-12
-    @test sol.prob === prob
-    @test sol.alg === alg
-    @test sol.retcode == :Success
-    @test sol.stats.time < 0.01
-    @test sol.stats.niter <= 765662
+    alg = GradientDescent(1e-1)
+
+    function _solve(u0)
+        f = (u, p) -> u .^ p
+        p = 2.0
+        grad = (u, p) -> p*u
+        prob = OptimizationProblem(f, u0, p, grad)
+        solve(prob, alg), prob
+    end
+
+    @testset "General" begin
+        sol, prob = _solve(1.0)
+        @test norm(sol.u) < 1e-6
+        @test norm(sol.objective) < 1e-12
+        @test sol.prob === prob
+        @test sol.alg === alg
+        @test sol.retcode == :Success
+        @test sol.stats.time < 1e-6
+        @test sol.stats.niter <= 66
+    end
+
+    @testset "SArray" begin
+        sol, _ = _solve(@SArray([2.0; 3.0]))
+        @test sol.retcode == :Success
+    end
 end
