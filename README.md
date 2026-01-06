@@ -13,7 +13,7 @@ The primary objective of this repository is to demystify high-performance librar
 ### Numerical Integrators
 - [**save_everystep**](https://github.com/SciML/DiffEqBase.jl/blob/e6876e274990fb9e70a870666cdb8678de5330f6/src/solve.jl#L334) — Save intermediate values by default for simplicity.
 
-> - [x] [**Forward Euler Method**](https://en.wikipedia.org/wiki/Euler_method) — The fundamental building block of numerical integration for Initial Value Problems.
+> - [x] [**Forward Euler**](https://en.wikipedia.org/wiki/Euler_method) — The fundamental building block of numerical integration for Initial Value Problems.
 > - **Goal** — Understand solver design while exploring Julia internals.
 > 
 > $$y_{n+1} = y_n + h f(t_n, y_n)$$
@@ -30,6 +30,11 @@ The primary objective of this repository is to demystify high-performance librar
 > y_{n+1} &= y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)
 > \end{align}
 > $$
+
+> - [x] [**Backward Euler**](https://en.wikipedia.org/wiki/Backward_Euler_method) — The simplest implicit method.
+> - **Goal** — Learn to implemenet implicit integrators.
+> 
+> $$y_{n+1} = y_n + h f(t_{n+1}, y_{n+1})$$
 
 ### Optimization Algorithms
 
