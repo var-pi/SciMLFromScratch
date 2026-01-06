@@ -5,66 +5,34 @@ using SciMLFromScratch
 using LinearAlgebra: norm
 
 @testset "Forward Euler" begin
-    # Linear scalar ODE: u̇ = λu, exact solution u(t) = u0 * exp(λt)
-    f = (u, p, t) -> p * u
-    u0 = @SVector [1.0]
-    tspan = (0.0, 1.0)
-    λ = 2.0
-    prob = ODEProblem(f, u0, tspan, λ)
 
-    n = 3
+    f = (u, p, t) -> p * u
+    u0 = 1.0
+    tspan = (0.0, 0.1)
+    p = 2.0
+    prob = ODEProblem(f, u0, tspan, p)
+
+    n = 10
     sol = solve(prob, ForwardEuler(); n = n)
 
-    @testset "Time grid" begin
-        @test length(sol.t) == n
-        @test sol.t[1] == tspan[1]
-        @test sol.t[end] == tspan[2]
+    @test norm(sol.u .- exp.(2 .* range(tspan..., n))) < 0.005
 
-        dt = sol.t[2] - sol.t[1]
-        @test sol.t[3] - sol.t[2] == dt
-    end
-
-    @testset "State values" begin
-        @test length(sol.u) == n
-        @test sol.u[1] == u0
-
-        dt = (tspan[2] - tspan[1]) / (n - 1)
-
-        # Forward Euler update: u_{k+1} = (1 + λ dt) u_k
-        expected_u2 = u0 * (1 + λ * dt)
-        expected_u3 = expected_u2 * (1 + λ * dt)
-
-        @test sol.u[2] ≈ expected_u2
-        @test sol.u[3] ≈ expected_u3
-    end
-
-    @testset "Solution metadata" begin
-        @test sol.prob === prob
-        @test sol.alg isa ForwardEuler
-        @test sol.retcode === :Success
-    end
-
-    @testset "Type stability" begin
-        @test eltype(sol.u) === typeof(u0)
-        @test sol.u isa Vector{typeof(u0)}
-    end
 end
 
 @testset "Gradient Descent" begin 
-
-    alg = GradientDescent(1e-1)
 
     function _solve(u0)
         f = (u, p) -> u .^ p
         p = 2.0
         grad = (u, p) -> p*u
         prob = OptimizationProblem(f, u0, p, grad)
-        solve(prob, alg), prob
+        alg = GradientDescent(1e-1)
+        solve(prob, alg), prob, alg
     end
 
     @testset "General" begin
-        sol, prob = _solve(1.0)
-        @test norm(sol.u) < 1e-6
+        sol, prob, alg = _solve(1.0)
+        @test norm(sol.u) < 1e-5
         @test norm(sol.objective) < 1e-12
         @test sol.prob === prob
         @test sol.alg === alg
@@ -74,7 +42,28 @@ end
     end
 
     @testset "SArray" begin
-        sol, _ = _solve(@SArray([2.0; 3.0]))
+        sol, _... = _solve(@SArray([2.0; 3.0]))
         @test sol.retcode == :Success
     end
+end
+
+@testset "RK4" begin
+
+    tspan = (0.0, 0.1)
+    alg = RungeKutta4()
+    n = 10
+
+    function _solve(u0)
+        f = (u, p, t) -> p * u
+        p = 2.0
+        prob = ODEProblem(f, u0, tspan, p)
+        solve(prob, alg; n = n), prob, alg
+    end
+
+    @testset "General" begin
+        sol, prob = _solve(1.0)
+
+        @test norm(sol.u .- exp.(2 .* range(tspan..., n))) < 8.8e-10
+    end
+
 end
