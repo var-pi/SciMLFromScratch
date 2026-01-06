@@ -2,7 +2,7 @@ using SciMLFromScratch: GradientDescent
 using Test
 using StaticArrays: @SVector, @SArray
 using SciMLFromScratch
-using LinearAlgebra: norm
+using LinearAlgebra: norm, Diagonal
 
 @testset "Forward Euler" begin
 
@@ -64,6 +64,28 @@ end
         sol, prob = _solve(1.0)
 
         @test norm(sol.u .- exp.(2 .* range(tspan..., n))) < 8.8e-10
+    end
+
+end
+
+@testset "Backward Euler" begin
+
+    tspan = (0.0, 0.1)
+    alg = BackwardEuler()
+    n = 10
+    p = 2.0
+
+    function _solve(u0)
+        f = (u, p, t) -> p * u
+        df = (u, p, t) -> Diagonal(fill(p, length(u)))
+        prob = ODEProblem(f, u0, tspan, p)
+        solve(prob, alg; n = n, df = df), prob, alg
+    end
+
+    @testset "General" begin
+        sol, prob = _solve([1.0])
+        true_u = [[exp(p * t)] for t in range(tspan..., n)]
+        @test norm(sol.u .- true_u) < 0.0
     end
 
 end
