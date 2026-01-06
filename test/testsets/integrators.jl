@@ -7,12 +7,8 @@ using LinearAlgebra: norm, Diagonal, I
 @testset "Integrators" begin
 
     function solve_example(u0, alg; has_df)
-        function get_df()
-            (u, p, t) -> isa(u, Number) ? p : p * I
-        end
-
         f = (u, p, t) -> p * u
-        df = has_df ? get_df() : nothing
+        df = has_df ? ((u, p, t) -> isa(u, Number) ? p : p * I) : nothing
         tspan = (0.0, 0.1)
         p = 2.0
         prob = ODEProblem(f, u0, tspan, p)
