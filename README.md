@@ -28,7 +28,7 @@ The primary objective of this repository is to demystify high-performance librar
 > k_3 &= \ f\left(t_n + \frac{h}{2}, y_n + h \frac{k_2}{2}\right) \\
 > k_4 &= \ f\left(t_n + h, y_n + h k_3\right) \\
 > y_{n+1} &= y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)
-> end{align}
+> \end{align}
 > $$
 
 ### Optimization Algorithms
