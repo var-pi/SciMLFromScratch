@@ -22,11 +22,13 @@ The primary objective of this repository is to demystify high-performance librar
 > - **Goal** — Explore higher-order methods and generalize the solver interface.
 > 
 > $$
-> k_1 = \ f(t_n, y_n) \\
-> k_2 = \ f\left(t_n + \frac{h}{2}, y_n + h \frac{k_1}{2}\right) \\ 
-> k_3 = \ f\left(t_n + \frac{h}{2}, y_n + h \frac{k_2}{2}\right) \\
-> k_4 = \ f\left(t_n + h, y_n + h k_3\right) \\
-> y_{n+1} = y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)
+> \begin{align}
+> k_1 &= \ f(t_n, y_n) \\
+> k_2 &= \ f\left(t_n + \frac{h}{2}, y_n + h \frac{k_1}{2}\right) \\ 
+> k_3 &= \ f\left(t_n + \frac{h}{2}, y_n + h \frac{k_2}{2}\right) \\
+> k_4 &= \ f\left(t_n + h, y_n + h k_3\right) \\
+> y_{n+1} &= y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)
+> end{align}
 > $$
 
 ### Optimization Algorithms
