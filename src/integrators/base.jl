@@ -37,5 +37,6 @@ end
     Integrator(f, u, p, alg, t, dt)
 end
 
+include("utils.jl")
 include("euler.jl")
 include("rk4.jl")

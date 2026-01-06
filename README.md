@@ -32,7 +32,7 @@ The primary objective of this repository is to demystify high-performance librar
 > $$
 
 > - [x] [**Backward Euler**](https://en.wikipedia.org/wiki/Backward_Euler_method) — The simplest implicit method.
-> - **Goal** — Learn to implemenet implicit integrators.
+> - **Goal** — Learn to implemenet implicit integrators using methods like Newton-Raphson.
 > 
 > $$y_{n+1} = y_n + h f(t_{n+1}, y_{n+1})$$
 

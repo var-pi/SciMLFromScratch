@@ -85,7 +85,7 @@ end
     @testset "General" begin
         sol, prob = _solve([1.0])
         true_u = [[exp(p * t)] for t in range(tspan..., n)]
-        @test norm(sol.u .- true_u) < 0.0
+        @test norm(sol.u .- true_u) < 0.005
     end
 
 end
