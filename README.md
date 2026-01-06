@@ -7,19 +7,25 @@ The primary objective of this repository is to demystify high-performance librar
 
 ## 🚀 Current Features
 
-### Numerical Integrators
 - [**SArray**](https://github.com/JuliaArrays/StaticArrays.jl) — Enforce immutability.
 - [**IIP**](https://en.wikipedia.org/wiki/In-place_algorithm) — Reject in-place operations due to immutability.
-- [**save_everystep**](https://github.com/SciML/DiffEqBase.jl/blob/e6876e274990fb9e70a870666cdb8678de5330f6/src/solve.jl#L334) — Save intermediate values for simplicity.
+
+### Numerical Integrators
+- [**save_everystep**](https://github.com/SciML/DiffEqBase.jl/blob/e6876e274990fb9e70a870666cdb8678de5330f6/src/solve.jl#L334) — Save intermediate values by default for simplicity.
 
 > - [x] [**Forward Euler Method**](https://en.wikipedia.org/wiki/Euler_method) — The fundamental building block of numerical integration for Initial Value Problems.
 > - **Goal** — Understand solver design while exploring Julia internals.
 > 
 > $$y_{n+1} = y_n + h f(t_n, y_n)$$
 
+> - [x] [**RK4**](https://en.wikipedia.org/wiki/Runge–Kutta_methods) — A standard fourth-order explicit integrator.
+> - **Goal** — Explore higher-order methods and generalize the solver interface.
+> 
+> $$y_{n+1} = y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)$$
+
 ### Optimization Algorithms
 
-> - [ ] [**Naive Gradient Descent**](https://en.wikipedia.org/wiki/Gradient_descent) — A pure implementation of the vanilla steepest descent algorithm. 
+> - [x] [**Naive Gradient Descent**](https://en.wikipedia.org/wiki/Gradient_descent) — A pure implementation of the vanilla steepest descent algorithm. 
 > - **Goal** — Investigate convergence and sensitivity to local minima.
 > 
 > $$\theta_{\text{next}} = \theta - \eta \nabla J(\theta)$$

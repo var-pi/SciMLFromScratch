@@ -3,7 +3,7 @@ struct GradientDescent <: AbstractOptimizer
 end
 
 function GradientDescent()
-    return GradientDescent(1e-5)
+    return GradientDescent(1e-1)
 end
 
 using LinearAlgebra: ⋅
