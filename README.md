@@ -1,6 +1,6 @@
 # SciML from Scratch
 
-A pedagogical library featuring [**Numerical Integrators**](https://www.sciencedirect.com/topics/engineering/numerical-integrator) and [**Optimization Algorithms**](https://en.wikipedia.org/wiki/Mathematical_optimization), built entirely in [Julia](https://julialang.org).
+A pedagogical library featuring [**Numerical Integrators**](https://www.sciencedirect.com/topics/engineering/numerical-integrator), [**Nonlinear Solvers**](https://en.wikipedia.org/wiki/Root-finding_algorithm?utm_source=chatgpt.com) and [**Optimization Algorithms**](https://en.wikipedia.org/wiki/Mathematical_optimization), built entirely in [Julia](https://julialang.org).
 
 ## 🎯 Project Goal
 The primary objective of this repository is to demystify high-performance libraries like [SciML](https://github.com/SciML). By implementing these algorithms from the ground up, this project serves as a deep dive into their mathematical foundations, stability considerations, and Julia-specific dispatch patterns that make the scientific ecosystem so efficient.
@@ -35,6 +35,13 @@ The primary objective of this repository is to demystify high-performance librar
 > - **Goal** — Learn to implemenet implicit integrators using methods like Newton-Raphson.
 > 
 > $$y_{n+1} = y_n + h f(t_{n+1}, y_{n+1})$$
+
+### Nonlinear Solvers
+
+> - [x] [**Newton–Raphson**](https://en.wikipedia.org/wiki/Newton%27s_method) — Foundational iterative algorithm for solving nonlinear algebraic equations.
+> - **Goal** — Implement a standalone nonlinear solver suitable for use in implicit integrators.
+>
+> $$x_{1} = x_0 - \frac{f(x_0)}{f'(x_0)}$$
 
 ### Optimization Algorithms
 
