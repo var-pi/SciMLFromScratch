@@ -23,8 +23,8 @@ end
 
 abstract type AbstractNonlinearProblem <: AbstractSciMLProblem end
 
-struct NonlinearProblem{F,DF,U} <: AbstractNonlinearProblem
+struct NonlinearProblem{F,U} <: AbstractNonlinearProblem
     f::F
-    df::Union{DF, Nothing}
+    df::Union{Function, Nothing}
     u0::U
 end
