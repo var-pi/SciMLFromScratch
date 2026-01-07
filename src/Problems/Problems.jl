@@ -5,6 +5,11 @@ struct ODEProblem{F, U, T, P} <: AbstractODEProblem
     u0::U
     tspan::T
     p::P
+    df::Union{Function, Nothing}
+end
+
+function ODEProblem(f, u0, tspan, p)
+    ODEProblem(f, u0, tspan, p, nothing)
 end
 
 abstract type AbstractOptimizationProblem <: AbstractSciMLProblem end

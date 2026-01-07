@@ -9,8 +9,8 @@ struct BackwardEuler <: AbstractODEAlgorithm end
     u + dt * f(u, p, t)
 end
 
-@inline function step(integ::Integrator{<:BackwardEuler}; df, alg = Newton())
-    (; f, u, p, t, dt) = integ
+@inline function step(integ::Integrator{<:BackwardEuler}; alg = Newton())
+    (; f, u, p, t, dt, df) = integ
 
     g(x) = x - u - dt * f(x, p, t + dt)
     dg(x) = I - dt * df(x, p, t + dt)

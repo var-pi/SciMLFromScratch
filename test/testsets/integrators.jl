@@ -10,9 +10,9 @@ using LinearAlgebra: norm, Diagonal, I
         df = has_df ? ((u, p, t) -> isa(u, Number) ? p : p * I) : nothing
         tspan = (0.0, 0.1)
         p = 2.0
-        prob = ODEProblem(f, u0, tspan, p)
+        prob = ODEProblem(f, u0, tspan, p, df)
         n = 10
-        solve(prob, alg; n = n, df = df), n, tspan, p, prob, f
+        solve(prob, alg; n = n), n, tspan, p, prob, f
     end
 
     function check_interface(alg::AbstractODEAlgorithm; has_df = false)
