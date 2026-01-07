@@ -1,18 +1,19 @@
-struct Integrator{F, U, P, A, T}
+struct Integrator{A, F, U, P, T}
+    alg::A
     f::F
     u::U
     p::P
-    alg::A
     t::T
     dt::T
 end
 
 function init(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n)
     (; f, u0, tspan, p) = prob
+
     t0, t1 = tspan
     dt = (t1 - t0) / (n - 1)
     u = u0
-    Integrator(f, u, p, alg, t0, dt)
+    Integrator(alg, f, u, p, t0, dt)
 end
 
 function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n, df = nothing)
@@ -29,14 +30,13 @@ function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n, df = noth
 end
 
 @inline function perform_step(integ::Integrator; df)
-    (; f, u, p, alg, t, dt) = integ
+    (; alg, f, u, p, t, dt) = integ
 
-    u = isnothing(df) ? step(alg, f, u, p, t, dt) : step(alg, f, u, p, t, dt; df)
+    u = isnothing(df) ? step(integ) : step(integ; df)
     t += dt
 
-    Integrator(f, u, p, alg, t, dt)
+    Integrator(alg, f, u, p, t, dt)
 end
 
-include("utils.jl")
 include("euler.jl")
 include("rk4.jl")

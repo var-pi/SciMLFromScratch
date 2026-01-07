@@ -1,6 +1,8 @@
 struct RungeKutta4 <: AbstractODEAlgorithm end
 
-@inline function step(::RungeKutta4, f, u, p, t, dt)
+@inline function step(integ::Integrator{A}) where A <: RungeKutta4
+    (; f, u, p, t, dt) = integ
+
     k1 = f(u, p, t)
     k2 = f(u + dt*k1/2, p, t + dt/2)
     k3 = f(u + dt*k2/2, p, t + dt/2)
