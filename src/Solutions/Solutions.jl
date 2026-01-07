@@ -26,3 +26,12 @@ struct OptimizationSolution{U, O, P, A} <: AbstractOptimizationSolution
     alg::A          # Algorithm used
     stats::OptimizationStats
 end
+
+abstract type AbstractNonlinearProblemSolution <: AbstractSciMLSolution end
+
+struct NonlinearProblemSolution{U} <: AbstractNonlinearProblemSolution
+    u::U
+    fu::U
+    iter::Int
+    converged::Bool
+end

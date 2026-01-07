@@ -10,5 +10,6 @@ struct BackwardEuler <: AbstractODEAlgorithm end
     dg(x) = I - dt * df(x, p, t + dt)
 
     prob = NonlinearProblem(g, dg, u)
-    solve(prob, alg)
+    sol = solve(prob, alg)
+    sol.u
 end

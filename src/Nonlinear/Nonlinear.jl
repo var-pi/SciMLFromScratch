@@ -1,4 +1,4 @@
-using LinearAlgebra: norm
+using LinearAlgebra: ⋅
 
 struct NonlinearState{A,U,F,DF}
     alg::A
@@ -17,14 +17,14 @@ function init(prob::NonlinearProblem, alg::AbstractNonlinearAlgorithm)
     NonlinearState(alg, u0, f(u0), f, df, 0, false)
 end
 
-function solve(prob::NonlinearProblem, alg::Newton)
+function solve(prob::NonlinearProblem, alg::AbstractNonlinearAlgorithm)
     state = init(prob, alg)
 
     while !state.converged && state.iter < alg.maxiter
         state = perform_step(state)
     end
 
-    state.u
+    NonlinearProblemSolution(state.u, state.fu, state.iter, state.converged)
 end
 
 function perform_step(state::NonlinearState)
@@ -33,9 +33,9 @@ function perform_step(state::NonlinearState)
     u = step(state)
     fu = f(u)
     iter += 1
-    converged = norm(fu) < alg.atol
+    converged = fu⋅fu < alg.atol^2
 
     NonlinearState(alg, u, fu, f, df, iter, converged)
 end
 
-include("Newton.jl")
+include("newton.jl")
