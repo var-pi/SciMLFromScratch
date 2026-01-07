@@ -32,17 +32,16 @@ function solve(prob::NonlinearProblem, alg::Newton)
     #return state.u / (1 - 0.1 / 9 * 2.0)
 
     while !state.converged && state.iter < alg.maxiter
-        state = step(state)
+        state = perform_step(state)
     end
 
     state.u
 end
 
-function step(state::NonlinearState)
+function perform_step(state::NonlinearState)
     (; u, fu, f, df, alg, iter, converged) = state
 
-    Δ = df(u) \ fu
-    u -= Δ
+    u = step(alg, fu, df, u)
     fu = f(u)
     iter += 1
     converged = norm(fu) < alg.atol
@@ -50,3 +49,6 @@ function step(state::NonlinearState)
     NonlinearState(u, fu, f, df, alg, iter, converged)
 end
 
+function step(::Newton, fu, df, u)
+    u - df(u) \ fu
+end
