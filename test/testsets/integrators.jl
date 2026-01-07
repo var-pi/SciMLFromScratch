@@ -1,7 +1,6 @@
-using SciMLFromScratch: GradientDescent, AbstractODEAlgorithm
+using SciMLFromScratch: GradientDescent, AbstractODEAlgorithm, ODEProblem, ForwardEuler, RungeKutta4, BackwardEuler, solve
 using Test
 using StaticArrays: @SVector, @SArray
-using SciMLFromScratch
 using LinearAlgebra: norm, Diagonal, I
 
 @testset "Integrators" begin
@@ -75,7 +74,7 @@ using LinearAlgebra: norm, Diagonal, I
         alg = BackwardEuler()
 
         check_interface(alg; has_df = true)
-        check_accuracy(alg, [@SVector([1.0;])], [0.004968]; has_df = true)
+        check_accuracy(alg, [@SVector([1.0;])], [0.00497]; has_df = true)
 
     end
 

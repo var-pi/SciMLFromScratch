@@ -1,14 +1,18 @@
 module SciMLFromScratch
 
-include("types.jl")
+abstract type AbstractSciMLProblem end
+abstract type AbstractSciMLAlgorithm end
+abstract type AbstractSciMLSolution end
 
-include("problems.jl")
+abstract type AbstractODEAlgorithm <: AbstractSciMLAlgorithm end
+abstract type AbstractOptimizer <: AbstractSciMLAlgorithm end
+abstract type AbstractNonlinearAlgorithm <: AbstractSciMLAlgorithm end
 
-include("integrators/base.jl")
-include("optimizers/gd.jl")
+include("Problems/Problems.jl")
 
-include("solutions.jl")
+include("Integrators/Integrators.jl")
+include("Optimizers/Optimizers.jl")
+include("Nonlinear/Nonlinear.jl")
 
-export solve, ODEProblem, ForwardEuler, ODESolution, OptimizationProblem, GradientDescent, OptimizationSolution, RungeKutta4, BackwardEuler
-
+include("Solutions/Solutions.jl")
 end

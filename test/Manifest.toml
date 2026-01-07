@@ -83,7 +83,7 @@ version = "0.7.0"
 
 [[deps.SciMLFromScratch]]
 deps = ["LinearAlgebra", "StaticArrays"]
-path = "/Users/var-pi/repo/SciMLFromScratch/"
+path = "/Users/var-pi/repo/SciMLFromScratch"
 uuid = "92c3ecef-e40f-46ab-9b01-ca7e49742dcf"
 version = "0.1.0"
 

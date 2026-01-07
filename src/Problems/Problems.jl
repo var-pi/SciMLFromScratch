@@ -15,3 +15,11 @@ struct OptimizationProblem{F, U, P, G} <: AbstractOptimizationProblem
     p::P        # Parameters (useful for SciML context)
     grad::G     # Optional: Analytical gradient function
 end
+
+abstract type AbstractNonlinearProblem <: AbstractSciMLProblem end
+
+struct NonlinearProblem{F,DF,U} <: AbstractNonlinearProblem
+    f::F
+    df::Union{DF, Nothing}
+    u0::U
+end
