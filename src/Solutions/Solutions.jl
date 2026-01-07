@@ -8,6 +8,10 @@ struct ODESolution{T, U, Prob, A} <: AbstractODESolution
     alg::A           # The algorithm used
 end
 
+function ODESolution(prob, integ, us, retcode)
+    ODESolution(StepRangeLen(prob.tspan[1], integ.dt, length(us)), us, retcode, prob, integ.alg)
+end
+
 abstract type AbstractOptimizationSolution <: AbstractSciMLSolution end
 
 struct OptimizationStats

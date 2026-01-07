@@ -26,7 +26,7 @@ function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n, df = noth
         us[i+1] = integ.u
     end
 
-    ODESolution(StepRangeLen(prob.tspan[1], integ.dt, n), us, :Success, prob, alg)
+    ODESolution(prob, integ, us, :Success)
 end
 
 @inline function perform_step(integ::Integrator; df)
