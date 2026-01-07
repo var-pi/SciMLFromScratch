@@ -39,3 +39,7 @@ struct NonlinearProblemSolution{U} <: AbstractNonlinearProblemSolution
     iter::Int
     converged::Bool
 end
+
+function NonlinearProblemSolution(state::NonlinearState)
+    NonlinearProblemSolution(state.u, state.fu, state.iter, state.converged)
+end
