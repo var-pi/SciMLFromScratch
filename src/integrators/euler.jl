@@ -1,7 +1,9 @@
 import LinearAlgebra: I
 
 struct ForwardEuler <: AbstractODEAlgorithm end
-struct BackwardEuler <: AbstractODEAlgorithm end
+struct BackwardEuler{A} <: AbstractODEAlgorithm
+    nlalg::A
+end
 
 @inline function step(integ::Integrator{<:ForwardEuler})
     (; f, u, p, t, dt) = integ
@@ -9,12 +11,12 @@ struct BackwardEuler <: AbstractODEAlgorithm end
     u + dt * f(u, p, t)
 end
 
-@inline function step(integ::Integrator{<:BackwardEuler}; alg = Newton())
-    (; f, u, p, t, dt, df) = integ
+@inline function step(integ::Integrator{<:BackwardEuler})
+    (; alg, f, u, p, t, dt, df) = integ
 
     g(x) = x - u - dt * f(x, p, t + dt)
     dg(x) = I - dt * df(x, p, t + dt)
 
     prob = NonlinearProblem(g, dg, u)
-    (solve(prob, alg)).u
+    (solve(prob, alg.nlalg)).u
 end

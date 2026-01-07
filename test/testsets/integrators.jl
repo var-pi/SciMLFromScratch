@@ -1,4 +1,4 @@
-using SciMLFromScratch: GradientDescent, AbstractODEAlgorithm, ODEProblem, ForwardEuler, RungeKutta4, BackwardEuler, solve
+using SciMLFromScratch: GradientDescent, AbstractODEAlgorithm, ODEProblem, ForwardEuler, RungeKutta4, BackwardEuler, solve, Newton
 using Test
 using StaticArrays: @SVector, @SArray
 using LinearAlgebra: norm, Diagonal, I
@@ -71,7 +71,7 @@ using LinearAlgebra: norm, Diagonal, I
 
     @testset "Backward Euler" begin
 
-        alg = BackwardEuler()
+        alg = BackwardEuler(Newton())
 
         check_interface(alg; has_df = true)
         check_accuracy(alg, [@SVector([1.0;])], [0.00497]; has_df = true)
