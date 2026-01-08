@@ -14,8 +14,13 @@ end
 
 # u_new = u - df(u) \ f(u)
 function step(state::NonlinearState{<:Newton})
-    (; alg, u, df, fu) = state
+    (; alg, u, df, fu, f) = state
     (; linalg) = alg
+
+    #J = JvpOperator(f, u, 1e-8)
+
+    ## LinearProblem: Jδ = fu
+    #prob = LinearProblem(J, fu, zero(fu))
 
     prob = LinearProblem(df(u), zero(fu), fu)
     sol = solve(prob, linalg)

@@ -1,3 +1,5 @@
+using LinearAlgebra: UniformScaling
+
 abstract type AbstractODEProblem <: AbstractSciMLProblem end
 
 struct ODEProblem{F, U, T, P} <: AbstractODEProblem
@@ -40,6 +42,10 @@ struct LinearProblem{TA,Tu,Tb} <: AbstractLinearProblem
     A::TA      # Function: A(u)
     u0::Tu     # Initial guess
     b::Tb      # Right-hand side
+end
+
+function LinearProblem(A::Union{AbstractArray, Number, UniformScaling}, u0, b)
+    LinearProblem(u -> A * u, u0, b)
 end
 
 export ODEProblem, OptimizationProblem, NonlinearProblem, LinearProblem

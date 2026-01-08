@@ -16,7 +16,7 @@ function init(prob::LinearProblem, alg::AbstractLinearAlgorithm)
     A = prob.A
     b = prob.b
     u0 = prob.u0
-    r0 = b - A * u0
+    r0 = b - A(u0)
     LinearState(alg, A, b, u0, r0, 0, false)
 end
 
@@ -36,7 +36,7 @@ function perform_step(state::LinearState)
     (; atol) = alg
 
     u_new = step(state)
-    r_new = b - A * u_new
+    r_new = b - A(u_new)
     converged = norm(r_new) < atol
 
     LinearState(alg, A, b, u_new, r_new, iter + 1, converged)

@@ -4,8 +4,8 @@ using LinearAlgebra: norm
 
     function solve_example(u0, alg)
 
-        A = [4.0 1.0; 1.0 3.0]         # SPD 2x2 matrix
-        b = [6.0, 7.0]                 # RHS
+        A = [4.0 1.0; 1.0 3.0]
+        b = [6.0; 7.0]
 
         prob = LinearProblem(A, u0, b)
 
@@ -24,7 +24,7 @@ using LinearAlgebra: norm
         @testset "Interface" begin
 
             @test size(u) == size(u0)
-            @test norm(A * u - b) < atol
+            @test norm(A(u) - b) < atol
             @test size(r) == size(u0)
             @test iter < maxiter
             @test converged

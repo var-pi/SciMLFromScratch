@@ -6,6 +6,7 @@ abstract type AbstractSciMLSolution end
 
 include("Problems/Problems.jl")
 
+include("Operators/Operators.jl")
 include("Linear/Linear.jl")
 include("Nonlinear/Nonlinear.jl")
 include("Integrators/Integrators.jl")
