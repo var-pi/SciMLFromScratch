@@ -31,17 +31,17 @@ struct OptimizationSolution{U, O, P, A} <: AbstractOptimizationSolution
     stats::OptimizationStats
 end
 
-abstract type AbstractNonlinearProblemSolution <: AbstractSciMLSolution end
+abstract type AbstractNonlinearSolution <: AbstractSciMLSolution end
 
-struct NonlinearProblemSolution{U} <: AbstractNonlinearProblemSolution
+struct NonlinearSolution{U} <: AbstractNonlinearSolution
     u::U
     fu::U
     iter::Int
     converged::Bool
 end
 
-function NonlinearProblemSolution(state::NonlinearState)
-    NonlinearProblemSolution(state.u, state.fu, state.iter, state.converged)
+function NonlinearSolution(state::NonlinearState)
+    NonlinearSolution(state.u, state.fu, state.iter, state.converged)
 end
 
 abstract type AbstractLinearSolution <: AbstractSciMLSolution end
@@ -58,4 +58,4 @@ function LinearSolution(state::LinearState)
     LinearSolution(u, r, iter, converged)
 end
 
-export ODESolution, OptimizationSolution, NonlinearProblemSolution, LinearSolution
+export ODESolution, OptimizationSolution, NonlinearSolution, LinearSolution

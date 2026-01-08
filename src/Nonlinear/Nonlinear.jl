@@ -26,7 +26,7 @@ function solve(prob::NonlinearProblem, alg::AbstractNonlinearAlgorithm)
         state = perform_step(state)
     end
 
-    NonlinearProblemSolution(state)
+    NonlinearSolution(state)
 end
 
 function perform_step(state::NonlinearState)
