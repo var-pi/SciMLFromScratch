@@ -9,7 +9,12 @@ struct ODESolution{T, U, Prob, A} <: AbstractODESolution
 end
 
 function ODESolution(prob, integ, us, retcode)
-    ODESolution(StepRangeLen(prob.tspan[1], integ.dt, length(us)), us, retcode, prob, integ.alg)
+    (; tspan) = prob
+    (; alg, dt) = integ
+
+    ts = StepRangeLen(tspan[1], dt, length(us))
+
+    ODESolution(ts, us, retcode, prob, alg)
 end
 
 abstract type AbstractOptimizationSolution <: AbstractSciMLSolution end
@@ -41,7 +46,9 @@ struct NonlinearSolution{U} <: AbstractNonlinearSolution
 end
 
 function NonlinearSolution(state::NonlinearState)
-    NonlinearSolution(state.u, state.fu, state.iter, state.converged)
+    (; u, fu, iter, converged) = state
+
+    NonlinearSolution(u, fu, iter, converged)
 end
 
 abstract type AbstractLinearSolution <: AbstractSciMLSolution end
@@ -55,6 +62,7 @@ end
 
 function LinearSolution(state::LinearState)
     (; u, r, iter, converged) = state
+
     LinearSolution(u, r, iter, converged)
 end
 
