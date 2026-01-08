@@ -1,35 +1,57 @@
+using SciMLFromScratch: AbstractLinearAlgorithm
+
 @testset "Linear" begin
 
-# ----------------------------
-# Setup a simple LinearProblem
-# ----------------------------
-A = [4.0 1.0; 1.0 3.0]         # SPD 2x2 matrix
-b = [6.0, 7.0]                 # RHS
-u0 = zeros(2)                  # initial guess
+    function solve_example(u0, alg)
 
-prob = LinearProblem(A, u0, b)
+        A = [4.0 1.0; 1.0 3.0]         # SPD 2x2 matrix
+        b = [6.0, 7.0]                 # RHS
 
-# ----------------------------
-# Setup a simple iterative solver
-# ----------------------------
-α = 0.2                        # Richardson relaxation parameter
-atol = 1e-8
-maxiter = 100
-alg = Richardson(α, atol, maxiter)
+        prob = LinearProblem(A, u0, b)
 
-# ----------------------------
-# Solve
-# ----------------------------
-sol = solve(prob, alg)
+        u = [1.0, 2.0]
 
-# ----------------------------
-# Tests
-# ----------------------------
-@test sol.converged                   # Should converge
-@test sol.iter < maxiter             # Should converge in fewer iterations
-@test norm(A * sol.u - b) < atol     # Residual small
-@test isapprox(sol.u, [1.0, 2.0], atol=1e-4)  # Exact solution
+        solve(prob, alg), u, prob, alg
+    end
 
+    function check_interface(alg::AbstractLinearAlgorithm)
 
+        sol, _, prob, alg = solve_example(zeros(2), alg)
+
+        @testset "Interface" begin
+
+            @test size(sol.u) == size(prob.u0)
+            @test norm(prob.A * sol.u - prob.b) < alg.atol
+            @test size(sol.r) == size(prob.u0)
+            @test sol.iter < alg.maxiter
+            @test sol.converged
+        end
+    end
+
+    function check_accuracy(alg::AbstractLinearAlgorithm, u0s, errs)
+
+        @testset "Accuracy" begin
+
+            for (u0, err) in zip(u0s, errs)
+                sol, u, _... = solve_example(u0, alg)
+
+                @testset "u0=$(u0)" begin
+
+                    @test norm(sol.u - u) < err
+                end
+            end
+        end
+    end
+
+    @testset "Richardson" begin
+
+        α = 0.2                        # Richardson relaxation parameter
+        atol = 1e-8
+        maxiter = 100
+        alg = Richardson(α, atol, maxiter)
+
+        check_interface(alg)
+        check_accuracy(alg, [zeros(2)], [2.28777e-9])
+    end
 
 end
