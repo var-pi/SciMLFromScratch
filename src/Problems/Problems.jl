@@ -29,6 +29,11 @@ struct NonlinearProblem{F,U} <: AbstractNonlinearProblem
     u0::U
 end
 
+struct _NonlinearProblem{A,U} <: AbstractNonlinearProblem
+    A::A # A(u) = 0, nonlinear operator
+    u0::U
+end
+
 abstract type AbstractLinearProblem <: AbstractSciMLProblem end
 
 struct LinearProblem{TA,Tu,Tb} <: AbstractLinearProblem

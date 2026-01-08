@@ -1,5 +1,5 @@
-struct Newton{A<:AbstractLinearAlgorithm} <: AbstractNonlinearAlgorithm 
-    linalg::A
+struct Newton{L<:AbstractLinearAlgorithm} <: AbstractNonlinearAlgorithm 
+    linalg::L
     maxiter::Int
     atol::Float64
 end
@@ -9,7 +9,7 @@ function Newton(linalg::AbstractLinearAlgorithm)
 end
 
 function Newton()
-    Newton(Richardson(0.2, 1e-8, 100))
+    Newton(Richardson())
 end
 
 # u_new = u - df(u) \ f(u)

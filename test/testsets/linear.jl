@@ -17,7 +17,7 @@ using LinearAlgebra: norm
     function check_interface(alg::AbstractLinearAlgorithm)
 
         sol, _, prob, alg = solve_example(zeros(2), alg)
-        (; atol) = alg, maxiter
+        (; atol, maxiter) = alg
         (; u, r, iter, converged) = sol
         (; A, u0, b) = prob
 

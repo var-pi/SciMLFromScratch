@@ -6,6 +6,10 @@ struct Richardson{T} <: AbstractLinearAlgorithm
     maxiter::Int
 end
 
+function Richardson()
+    Richardson(0.2, 1e-8, 100)
+end
+
 function step(state::LinearState{<:Richardson})
     (; alg, u, r) = state
     (; α) = alg
