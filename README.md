@@ -15,14 +15,14 @@ The primary objective of this repository is to demystify high-performance librar
 > - [x] [**Richardson**](https://jschoeberl.github.io/iFEM/iterative/Richardson.html) — Simple relaxation method for linear systems.
 > - **Goal** — Implement a standalone linear solver for nonlinear solvers.
 >
-> $$$$
+> $$y_{n+1} = y_{n} - \alpha (b - Ay_{n})$$
 
 ### Nonlinear Solvers
 
 > - [x] [**Newton–Raphson**](https://en.wikipedia.org/wiki/Newton%27s_method) — Foundational iterative algorithm for solving nonlinear algebraic equations.
 > - **Goal** — Implement a standalone nonlinear solver for implicit integrators.
 >
-> $$x_{n+1} = x_{n} - \alpha (b - Ax_{n})$$
+> $$y_{n+1} = y_n - \frac{f(y_n)}{f'(y_n)}$$
 
 ### Numerical Integrators
 
