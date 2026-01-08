@@ -40,17 +40,5 @@ function perform_step(state::LinearState)
     LinearState(alg, A, b, u_new, r_new, iter + 1, converged)
 end
 
-struct Richardson{T} <: AbstractLinearAlgorithm
-    α::T        # relaxation parameter
-    atol::T
-    maxiter::Int
-end
-
-function step(state::LinearState{<:Richardson})
-    (; alg, u, r) = state
-
-    # Richardson update: x_{k+1} = x + α * r
-    u + alg.α * r
-end
-
+include("richardson.jl")
 export AbstractLinearAlgorithm, Richardson
