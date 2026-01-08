@@ -9,23 +9,25 @@ using LinearAlgebra: norm
 
         prob = LinearProblem(A, u0, b)
 
-        u = [1.0, 2.0]
+        u★ = [1.0, 2.0]
 
-        solve(prob, alg), u, prob, alg
+        solve(prob, alg), u★, prob, alg
     end
 
     function check_interface(alg::AbstractLinearAlgorithm)
 
         sol, _, prob, alg = solve_example(zeros(2), alg)
         (; atol) = alg, maxiter
+        (; u, r, iter, converged) = sol
+        (; A, u0, b) = prob
 
         @testset "Interface" begin
 
-            @test size(sol.u) == size(prob.u0)
-            @test norm(prob.A * sol.u - prob.b) < atol
-            @test size(sol.r) == size(prob.u0)
-            @test sol.iter < maxiter
-            @test sol.converged
+            @test size(u) == size(u0)
+            @test norm(A * u - b) < atol
+            @test size(r) == size(u0)
+            @test iter < maxiter
+            @test converged
         end
     end
 
@@ -34,11 +36,13 @@ using LinearAlgebra: norm
         @testset "Accuracy" begin
 
             for (u0, err) in zip(u0s, errs)
-                sol, u, _... = solve_example(u0, alg)
+
+                sol, u★, _... = solve_example(u0, alg)
+                (; u) = sol
 
                 @testset "u0=$(u0)" begin
 
-                    @test norm(sol.u - u) < err
+                    @test norm(u - u★) < err
                 end
             end
         end

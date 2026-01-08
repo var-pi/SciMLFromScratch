@@ -12,15 +12,18 @@ using LinearAlgebra: ⋅
 
     function check_interface(alg)
         sol, prob, alg = solve_example(1.0, alg)
+        (; u0) = prob
+        (; retcode, stats) = sol
+        (; niter, time) = stats
 
         @testset "Interface" begin
 
-            @test size(sol.u) == size(prob.u0)
-            @test sol.retcode == :Success
+            @test size(sol.u) == size(u0)
+            @test retcode == :Success
             @test sol.prob === prob
             @test sol.alg === alg
-            @test sol.stats.niter <= 66
-            @test sol.stats.time < 1e-5
+            @test niter <= 66
+            @test time < 1e-5
         end
     end
 

@@ -16,6 +16,7 @@ using LinearAlgebra: norm, Diagonal, I
     function check_interface(alg::AbstractODEAlgorithm; has_df = false)
 
         sol, n, tspan, p, prob, f = solve_example(1.0, alg; has_df)
+        (; retcode) = sol
 
         ts = range(tspan..., n)
 
@@ -23,7 +24,7 @@ using LinearAlgebra: norm, Diagonal, I
 
             @test length(sol.t) == length(ts)
             @test all(t -> t[1] ≈ t[2], zip(sol.t, ts))
-            @test sol.retcode == :Success
+            @test retcode == :Success
             @test sol.prob === prob
             @test sol.alg === alg
 
