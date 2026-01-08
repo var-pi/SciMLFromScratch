@@ -41,6 +41,7 @@ end
     Integrator(alg, f, u, p, t, dt, df)
 end
 
-include("euler.jl")
+include("forward_euler.jl")
+include("backward_euler.jl")
 include("rk4.jl")
 export AbstractODEAlgorithm, ForwardEuler, BackwardEuler, RungeKutta4
