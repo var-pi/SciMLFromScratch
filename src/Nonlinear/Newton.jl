@@ -1,14 +1,22 @@
-struct Newton <: AbstractNonlinearAlgorithm 
+struct Newton{A} <: AbstractNonlinearAlgorithm 
+    linalg::A
     maxiter::Int
     atol::Float64
 end
 
-function Newton()
-    Newton(50, 1e-8)
+function Newton(linalg::A) where {A <: AbstractLinearAlgorithm}
+    Newton(linalg, 50, 1e-8)
 end
 
-function step(state::NonlinearState{<:Newton})
-    (; u, df, fu) = state
+function Newton()
+    Newton(Richardson(0.2, 1e-8, 100))
+end
 
-    u - df(u) \ fu
+# u_new = u - df(u) \ f(u)
+function step(state::NonlinearState{<:Newton})
+    (; alg, u, df, fu) = state
+
+    prob = LinearProblem(df(u), zero(fu), fu)
+    sol = solve(prob, alg.linalg)
+    u - sol.u
 end

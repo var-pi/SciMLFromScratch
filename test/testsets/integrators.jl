@@ -69,7 +69,7 @@ using LinearAlgebra: norm, Diagonal, I
 
     @testset "Backward Euler" begin
 
-        alg = BackwardEuler(Newton())
+        alg = BackwardEuler()
 
         check_interface(alg; has_df = true)
         check_accuracy(alg, [@SVector([1.0;])], [0.00497]; has_df = true)

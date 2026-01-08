@@ -1,5 +1,3 @@
-using SciMLFromScratch: AbstractLinearAlgorithm
-
 @testset "Linear" begin
 
     function solve_example(u0, alg)
