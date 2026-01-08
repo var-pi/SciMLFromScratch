@@ -15,7 +15,7 @@ The primary objective of this repository is to demystify high-performance librar
 > - [x] [**Richardson**](https://jschoeberl.github.io/iFEM/iterative/Richardson.html) — Simple relaxation method for linear systems.
 > - **Goal** — Implement a standalone linear solver for nonlinear solvers.
 >
-> $$y_{n+1} = y_{n} - \alpha (b - Ay_{n})$$
+> $$y_{n+1} = y_{n} + \alpha (b - Ay_{n})$$
 
 ### Nonlinear Solvers
 
