@@ -16,6 +16,7 @@ function init(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n)
     t0, t1 = tspan
     dt = (t1 - t0) / (n - 1)
     u = u0
+
     Integrator(alg, f, u, p, t0, dt, df)
 end
 
