@@ -1,4 +1,4 @@
-using SciMLFromScratch
+using SciMLFromScratch, Test
 
 include("testsets/integrators.jl")
 include("testsets/optimizers.jl")

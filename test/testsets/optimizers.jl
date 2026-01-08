@@ -1,5 +1,3 @@
-using Test
-using SciMLFromScratch: GradientDescent, OptimizationProblem
 using LinearAlgebra: ⋅
 
 @testset "Optimizers" begin
