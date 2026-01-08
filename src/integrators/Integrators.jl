@@ -32,7 +32,7 @@ function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n)
     ODESolution(prob, integ, us, :Success)
 end
 
-@inline function perform_step(integ::Integrator)
+function perform_step(integ::Integrator)
     (; alg, f, u, p, t, dt, df) = integ
 
     u = step(integ)

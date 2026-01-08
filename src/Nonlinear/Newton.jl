@@ -1,10 +1,10 @@
-struct Newton{A} <: AbstractNonlinearAlgorithm 
+struct Newton{A<:AbstractLinearAlgorithm} <: AbstractNonlinearAlgorithm 
     linalg::A
     maxiter::Int
     atol::Float64
 end
 
-function Newton(linalg::A) where {A <: AbstractLinearAlgorithm}
+function Newton(linalg::AbstractLinearAlgorithm)
     Newton(linalg, 50, 1e-8)
 end
 
