@@ -43,3 +43,19 @@ end
 function NonlinearProblemSolution(state::NonlinearState)
     NonlinearProblemSolution(state.u, state.fu, state.iter, state.converged)
 end
+
+abstract type AbstractLinearSolution <: AbstractSciMLSolution end
+
+struct LinearSolution{U,R} <: AbstractLinearSolution
+    u::U           # final solution vector
+    r::R           # final residual vector
+    iter::Int      # number of iterations performed
+    converged::Bool
+end
+
+function LinearSolution(state::LinearState)
+    (; u, r, iter, converged) = state
+    LinearSolution(u, r, iter, converged)
+end
+
+export ODESolution, OptimizationSolution, NonlinearProblemSolution, LinearSolution

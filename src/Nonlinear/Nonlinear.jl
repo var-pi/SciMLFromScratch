@@ -1,5 +1,7 @@
 using LinearAlgebra: ⋅
 
+abstract type AbstractNonlinearAlgorithm <: AbstractSciMLAlgorithm end
+
 struct NonlinearState{A,U,F,DF}
     alg::A
     u::U             # current iterate
@@ -39,3 +41,4 @@ function perform_step(state::NonlinearState)
 end
 
 include("newton.jl")
+export AbstractNonlinearAlgorithm, Newton

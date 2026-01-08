@@ -28,3 +28,13 @@ struct NonlinearProblem{F,U} <: AbstractNonlinearProblem
     df::Union{Function, Nothing}
     u0::U
 end
+
+abstract type AbstractLinearProblem <: AbstractSciMLProblem end
+
+struct LinearProblem{TA,Tu,Tb} <: AbstractLinearProblem
+    A::TA      # Function: A(u)
+    u0::Tu     # Initial guess
+    b::Tb      # Right-hand side
+end
+
+export ODEProblem, OptimizationProblem, NonlinearProblem, LinearProblem

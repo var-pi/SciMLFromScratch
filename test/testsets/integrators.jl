@@ -1,4 +1,4 @@
-using SciMLFromScratch: GradientDescent, AbstractODEAlgorithm, ODEProblem, ForwardEuler, RungeKutta4, BackwardEuler, solve, Newton
+#using SciMLFromScratch: GradientDescent, AbstractODEAlgorithm, ODEProblem, ForwardEuler, RungeKutta4, BackwardEuler, solve, Newton, LinearProblem, Richardson
 using Test
 using StaticArrays: @SVector, @SArray
 using LinearAlgebra: norm, Diagonal, I
@@ -79,3 +79,4 @@ using LinearAlgebra: norm, Diagonal, I
     end
 
 end
+

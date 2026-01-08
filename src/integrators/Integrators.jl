@@ -1,3 +1,5 @@
+abstract type AbstractODEAlgorithm <: AbstractSciMLAlgorithm end
+
 struct Integrator{A, F, U, P, T}
     alg::A
     f::F
@@ -41,3 +43,4 @@ end
 
 include("euler.jl")
 include("rk4.jl")
+export AbstractODEAlgorithm, ForwardEuler, BackwardEuler, RungeKutta4
