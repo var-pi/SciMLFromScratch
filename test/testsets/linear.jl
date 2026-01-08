@@ -1,3 +1,5 @@
+using LinearAlgebra: norm
+
 @testset "Linear" begin
 
     function solve_example(u0, alg)
@@ -15,13 +17,14 @@
     function check_interface(alg::AbstractLinearAlgorithm)
 
         sol, _, prob, alg = solve_example(zeros(2), alg)
+        (; atol) = alg, maxiter
 
         @testset "Interface" begin
 
             @test size(sol.u) == size(prob.u0)
-            @test norm(prob.A * sol.u - prob.b) < alg.atol
+            @test norm(prob.A * sol.u - prob.b) < atol
             @test size(sol.r) == size(prob.u0)
-            @test sol.iter < alg.maxiter
+            @test sol.iter < maxiter
             @test sol.converged
         end
     end

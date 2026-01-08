@@ -21,8 +21,9 @@ end
 
 function solve(prob::NonlinearProblem, alg::AbstractNonlinearAlgorithm)
     state = init(prob, alg)
+    (; maxiter) = alg
 
-    while !state.converged && state.iter < alg.maxiter
+    while !state.converged && state.iter < maxiter
         state = perform_step(state)
     end
 
@@ -31,11 +32,12 @@ end
 
 function perform_step(state::NonlinearState)
     (; alg, u, fu, f, df, iter, converged) = state
+    (; atol) = alg
 
     u = step(state)
     fu = f(u)
     iter += 1
-    converged = fu⋅fu < alg.atol^2
+    converged = fu⋅fu < atol^2
 
     NonlinearState(alg, u, fu, f, df, iter, converged)
 end

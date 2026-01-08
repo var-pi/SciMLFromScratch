@@ -22,8 +22,9 @@ end
 
 function solve(prob::LinearProblem, alg::AbstractLinearAlgorithm)
     state = init(prob, alg)
+    (; maxiter) = alg
 
-    while !state.converged && state.iter < alg.maxiter
+    while !state.converged && state.iter < maxiter
         state = perform_step(state)
     end
 
@@ -32,10 +33,11 @@ end
 
 function perform_step(state::LinearState)
     (; alg, A, b, iter) = state
+    (; atol) = alg
 
     u_new = step(state)
     r_new = b - A * u_new
-    converged = norm(r_new) < alg.atol
+    converged = norm(r_new) < atol
 
     LinearState(alg, A, b, u_new, r_new, iter + 1, converged)
 end

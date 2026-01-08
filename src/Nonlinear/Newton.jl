@@ -15,8 +15,9 @@ end
 # u_new = u - df(u) \ f(u)
 function step(state::NonlinearState{<:Newton})
     (; alg, u, df, fu) = state
+    (; linalg) = alg
 
     prob = LinearProblem(df(u), zero(fu), fu)
-    sol = solve(prob, alg.linalg)
+    sol = solve(prob, linalg)
     u - sol.u
 end

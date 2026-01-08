@@ -1,3 +1,5 @@
+using LinearAlgebra: I, eigvals, Matrix
+
 struct Richardson{T} <: AbstractLinearAlgorithm
     α::T        # relaxation parameter
     atol::T
@@ -6,7 +8,7 @@ end
 
 function step(state::LinearState{<:Richardson})
     (; alg, u, r) = state
+    (; α) = alg
 
-    # Richardson update: x_{k+1} = x + α * r
-    u + alg.α * r
+    u + α * r
 end
