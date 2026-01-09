@@ -2,25 +2,23 @@ using LinearAlgebra: norm
 
 abstract type AbstractLinearAlgorithm <: AbstractSciMLAlgorithm end
 
-struct LinearState{ALG,A,B,U}
-    alg::ALG
-    A::A
-    b::B
-    u::U           # current iterate
-    r::U           # residual r = b - A*x
+struct LinearState{Alg,Op<:AbstractLinearOperator,I,O}
+    alg::Alg
+    A::Op
+    b::O
+    u::I           # current iterate
+    r::O           # residual r = b - A*x
     iter::Int
     converged::Bool
 end
 
-function init(prob::LinearProblem, alg::AbstractLinearAlgorithm)
-    A = prob.A
-    b = prob.b
-    u0 = prob.u0
-    r0 = b - A(u0)
+function init(prob::AbstractLinearProblem, alg::AbstractLinearAlgorithm)
+    (; A, b, u0) = prob
+    r0 = b - apply(A, u0)
     LinearState(alg, A, b, u0, r0, 0, false)
 end
 
-function solve(prob::LinearProblem, alg::AbstractLinearAlgorithm)
+function solve(prob::AbstractLinearProblem, alg::AbstractLinearAlgorithm)
     state = init(prob, alg)
     (; maxiter) = alg
 
@@ -36,7 +34,7 @@ function perform_step(state::LinearState)
     (; atol) = alg
 
     u_new = step(state)
-    r_new = b - A(u_new)
+    r_new = b - apply(A, u_new)
     converged = norm(r_new) < atol
 
     LinearState(alg, A, b, u_new, r_new, iter + 1, converged)

@@ -1,15 +1,16 @@
-using LinearAlgebra: norm
+using LinearAlgebra: norm, mul!
 
 @testset "Linear" begin
 
     function solve_example(u0, alg)
 
-        A = [4.0 1.0; 1.0 3.0]
+        M = [4.0 1.0; 1.0 3.0]
+        A = LinearOperator((y, u) -> mul!(y, M, u), zeros(2), zeros(2))
         b = [6.0; 7.0]
 
         prob = LinearProblem(A, u0, b)
 
-        u★ = [1.0, 2.0]
+        u★ = [1.0; 2.0]
 
         solve(prob, alg), u★, prob, alg
     end
@@ -24,7 +25,7 @@ using LinearAlgebra: norm
         @testset "Interface" begin
 
             @test size(u) == size(u0)
-            @test norm(A(u) - b) < atol
+            @test norm(apply(A, u) - b) < atol
             @test size(r) == size(u0)
             @test iter < maxiter
             @test converged

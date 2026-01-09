@@ -38,10 +38,10 @@ end
 
 abstract type AbstractLinearProblem <: AbstractSciMLProblem end
 
-struct LinearProblem{TA,Tu,Tb} <: AbstractLinearProblem
-    A::TA      # Function: A(u)
-    u0::Tu     # Initial guess
-    b::Tb      # Right-hand side
+struct LinearProblem{Op<:AbstractLinearOperator,U,B} <: AbstractLinearProblem
+    A::Op      # Operator: A(u)
+    u0::U     # Initial guess
+    b::B      # Right-hand side
 end
 
 function LinearProblem(A::Union{AbstractArray, Number, UniformScaling}, u0, b)

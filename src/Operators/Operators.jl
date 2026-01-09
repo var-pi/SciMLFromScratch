@@ -4,6 +4,6 @@ include("nonlinear_operator.jl")
 include("composed_operator.jl")
 include("jvp_operator.jl")
 
-export AbstractOperator, LinearOperator, NonlinearOperator,
+export AbstractOperator, AbstractLinearOperator, LinearOperator, NonlinearOperator,
        ComposedOperator, JvpOperator,
-       apply, compose
+       apply!, apply, compose
