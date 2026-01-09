@@ -1,22 +1,22 @@
-using LinearAlgebra: norm
+using LinearAlgebra: norm, diagm
 
 @testset "Nonlinear" begin
 
     function solve_example(u0, alg)
 
-        f(u) = exp(u) - 1
-        df(u) = exp(u)
+        f(u) = exp.(u) .- 1
+        df(u) = diagm(exp.(u))
 
         prob = NonlinearProblem(f, df, u0)
 
-        u★ = 0.0
+        u★ = [0.0, 0.0]
 
         solve(prob, alg), u★, prob, alg
     end
 
     function check_interface(alg::AbstractNonlinearAlgorithm)
 
-        sol, _, prob, alg = solve_example(0.2, alg)
+        sol, _, prob, alg = solve_example([0.2, 1.3], alg)
         (; atol, maxiter) = alg
         (; u, fu, iter, converged) = sol
         (; f, u0) = prob
@@ -52,7 +52,7 @@ using LinearAlgebra: norm
         alg = Newton()
 
         check_interface(alg)
-        check_accuracy(alg, [1.0], [9.2817419e-9])
+        check_accuracy(alg, [[0.2, 1.3]], [9.2817419e-9])
     end
 
 end

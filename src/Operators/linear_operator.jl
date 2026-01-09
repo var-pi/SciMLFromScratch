@@ -8,6 +8,11 @@ struct LinearOperator{F,I,O} <: AbstractLinearOperator
     prototype_out::O    # y
 end
 
+function LinearOperator(M::AbstractMatrix)
+    v = zeros(size(M)[1])
+    LinearOperator((y, u) -> mul!(y, M, u), v, v)
+end
+
 function apply!(y, A::LinearOperator, u)
     A.apply!(y, u)
 end
