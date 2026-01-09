@@ -25,7 +25,7 @@ using LinearAlgebra: norm, mul!
         @testset "Interface" begin
 
             @test size(u) == size(u0)
-            @test norm(apply(A, u) - b) < atol
+            @test norm(A(u) - b) < atol
             @test size(r) == size(u0)
             @test iter < maxiter
             @test converged

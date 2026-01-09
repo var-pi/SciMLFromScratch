@@ -17,3 +17,5 @@ function apply(A::LinearOperator, u)
     apply!(y, A, u)
     y
 end
+
+(A::LinearOperator)(u) = apply(A, u)
