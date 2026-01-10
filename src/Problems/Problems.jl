@@ -1,5 +1,24 @@
 using LinearAlgebra: UniformScaling
 
+abstract type AbstractLinearProblem <: AbstractSciMLProblem end
+
+struct LinearProblem{Op<:AbstractLinearOperator,U,B} <: AbstractLinearProblem
+    A::Op      # Operator: A(u)
+    u0::U     # Initial guess
+    b::B      # Right-hand side
+end
+
+function LinearProblem(A::Union{AbstractArray, Number, UniformScaling}, u0, b)
+    LinearProblem(u -> A * u, u0, b)
+end
+
+abstract type AbstractNonlinearProblem <: AbstractSciMLProblem end
+
+struct NonlinearProblem{Op<:AbstractNonlinearOperator,U} <: AbstractNonlinearProblem
+    A::Op # A(u) = 0, nonlinear operator
+    u0::U
+end
+
 abstract type AbstractODEProblem <: AbstractSciMLProblem end
 
 struct ODEProblem{F, U, T, P} <: AbstractODEProblem
@@ -21,31 +40,6 @@ struct OptimizationProblem{F, U, P, G} <: AbstractOptimizationProblem
     u0::U       # Initial guess
     p::P        # Parameters (useful for SciML context)
     grad::G     # Optional: Analytical gradient function
-end
-
-abstract type AbstractNonlinearProblem <: AbstractSciMLProblem end
-
-struct NonlinearProblem{Op<:AbstractNonlinearOperator,U} <: AbstractNonlinearProblem
-    A::Op
-    J::Union{Function, Nothing}
-    u0::U
-end
-
-struct _NonlinearProblem{Op,U} <: AbstractNonlinearProblem
-    A::Op # A(u) = 0, nonlinear operator
-    u0::U
-end
-
-abstract type AbstractLinearProblem <: AbstractSciMLProblem end
-
-struct LinearProblem{Op<:AbstractLinearOperator,U,B} <: AbstractLinearProblem
-    A::Op      # Operator: A(u)
-    u0::U     # Initial guess
-    b::B      # Right-hand side
-end
-
-function LinearProblem(A::Union{AbstractArray, Number, UniformScaling}, u0, b)
-    LinearProblem(u -> A * u, u0, b)
 end
 
 export ODEProblem, OptimizationProblem, NonlinearProblem, LinearProblem

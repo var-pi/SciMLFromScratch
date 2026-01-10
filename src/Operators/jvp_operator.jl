@@ -1,12 +1,11 @@
-struct JvpOperator{F,U} <: AbstractOperator
-    F::F      # the residual operator
-    u::U      # current point where J is evaluated
+struct JvpOperator{Op<:AbstractOperator,U} <: AbstractLinearOperator
+    A::Op   # the residual operator
+    u::U    # current point where J is evaluated
     eps::Float64
 end
 
 function apply(Jv::JvpOperator, v)
-    F = Jv.F
-    u = Jv.u
-    ε = Jv.eps
-    return (apply(F, u .+ ε .* v) .- apply(F, u)) ./ ε
+    (; A, u, eps) = Jv
+    ε = eps
+    return (A(u .+ ε .* v) .- A(u)) ./ ε
 end

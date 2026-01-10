@@ -4,18 +4,12 @@ using LinearAlgebra: norm, diagm
 
     function solve_example(u0, alg)
 
-        J(u) = LinearOperator(
-            (y, v) -> y .= diagm(exp.(u)) * v,
-            zeros(2),
-            zeros(2)
-        )
-
         A = NonlinearOperator(
             (y, u) -> y .= exp.(u) .- 1,
             zeros(2),
             zeros(2)
         )
-        prob = NonlinearProblem(A, J, u0)
+        prob = NonlinearProblem(A, u0)
 
         u★ = [0.0, 0.0]
 

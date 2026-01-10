@@ -9,3 +9,5 @@ function compose(A::AbstractOperator, B::AbstractOperator)
     ComposedOperator(A, B)
 end
 
+(A::AbstractOperator)(u) = apply(A, u)
+
