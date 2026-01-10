@@ -17,11 +17,6 @@ function step(state::NonlinearState{<:Newton})
     (; alg, u, Au, A) = state
     (; linalg) = alg
 
-    #J = JvpOperator(f, u, 1e-8)
-
-    ## LinearProblem: Jδ = fu
-    #prob = LinearProblem(J, fu, zero(fu))
-
     prob = LinearProblem(
         JvpOperator(A, u, 1e-8),
         zero(Au),

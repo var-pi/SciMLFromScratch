@@ -2,10 +2,10 @@ using LinearAlgebra: ⋅
 
 abstract type AbstractNonlinearAlgorithm <: AbstractSciMLAlgorithm end
 
-struct NonlinearState{A,U,Op<:AbstractNonlinearOperator}
+struct NonlinearState{A,U,V,Op<:AbstractNonlinearOperator}
     alg::A
     u::U             # current iterate
-    Au::U            # residual at current iterate
+    Au::V            # residual at current iterate
     A::Op             # residual function
     iter::Int        # iteration counter
     converged::Bool

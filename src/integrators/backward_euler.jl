@@ -9,12 +9,15 @@ function BackwardEuler()
 end
 
 @inline function step(integ::Integrator{<:BackwardEuler})
-    (; alg, f, u, p, t, dt, df) = integ
+    (; alg, f, u, p, t, dt) = integ
     (; nlalg) = alg
 
     g(x) = x - u - dt * f(x, p, t + dt)
-    dg(x) = I - dt * df(x, p, t + dt)
 
-    prob = NonlinearProblem(g, dg, u)
-    (solve(prob, nlalg)).u
+    prob = NonlinearProblem(
+        NonlinearOperator((y, u) -> y .= g(u), u, u),
+        u
+    )
+    sol = solve(prob, nlalg)
+    sol.u
 end

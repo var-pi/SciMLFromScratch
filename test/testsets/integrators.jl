@@ -3,19 +3,18 @@ using LinearAlgebra: norm, Diagonal, I
 
 @testset "Integrators" begin
 
-    function solve_example(u0, alg; has_df)
+    function solve_example(u0, alg)
         f = (u, p, t) -> p * u
-        df = has_df ? ((u, p, t) -> isa(u, Number) ? p : p * I) : nothing
         tspan = (0.0, 0.1)
         p = 2.0
-        prob = ODEProblem(f, u0, tspan, p, df)
+        prob = ODEProblem(f, u0, tspan, p)
         n = 10
         solve(prob, alg; n = n), n, tspan, p, prob, f
     end
 
-    function check_interface(alg::AbstractODEAlgorithm; has_df = false)
+    function check_interface(alg::AbstractODEAlgorithm)
 
-        sol, n, tspan, p, prob, f = solve_example(1.0, alg; has_df)
+        sol, n, tspan, p, prob, f = solve_example([1.0], alg)
         (; retcode) = sol
 
         ts = range(tspan..., n)
@@ -32,12 +31,12 @@ using LinearAlgebra: norm, Diagonal, I
 
     end
 
-    function check_accuracy(alg::AbstractODEAlgorithm, u0s, errs; has_df = false)
+    function check_accuracy(alg::AbstractODEAlgorithm, u0s, errs)
 
         @testset "Accuracy" begin
 
             for (u0, err) in zip(u0s, errs)
-                sol, n, tspan, p, _... = solve_example(u0, alg; has_df)
+                sol, n, tspan, p, _... = solve_example(u0, alg)
 
                 ts = range(tspan..., n)
                 us = [u0 .* exp(p * t) for t in ts]
@@ -55,7 +54,7 @@ using LinearAlgebra: norm, Diagonal, I
         alg = ForwardEuler()
 
         check_interface(alg)
-        check_accuracy(alg, [1.0, @SArray([2.0; 3.0])], [0.00482, 0.01736])
+        check_accuracy(alg, [[1.0], @SArray([2.0; 3.0])], [0.00482, 0.01736])
 
     end
 
@@ -64,7 +63,7 @@ using LinearAlgebra: norm, Diagonal, I
         alg = RungeKutta4()
 
         check_interface(alg)
-        check_accuracy(alg, [1.0, @SArray([2.0; 3.0])], [8.7782e-10, 3.1651e-9])
+        check_accuracy(alg, [[1.0], @SArray([2.0; 3.0])], [8.7782e-10, 3.1651e-9])
 
     end
 
@@ -72,8 +71,8 @@ using LinearAlgebra: norm, Diagonal, I
 
         alg = BackwardEuler()
 
-        check_interface(alg; has_df = true)
-        check_accuracy(alg, [@SVector([1.0;])], [0.00497]; has_df = true)
+        check_interface(alg)
+        check_accuracy(alg, [@SVector([1.0;])], [0.00497])
 
     end
 

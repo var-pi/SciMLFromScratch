@@ -7,17 +7,16 @@ struct Integrator{A, F, U, P, T}
     p::P
     t::T
     dt::T
-    df::Union{Function, Nothing}
 end
 
 function init(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n)
-    (; f, u0, tspan, p, df) = prob
+    (; f, u0, tspan, p) = prob
 
     t0, t1 = tspan
     dt = (t1 - t0) / (n - 1)
     u = u0
 
-    Integrator(alg, f, u, p, t0, dt, df)
+    Integrator(alg, f, u, p, t0, dt)
 end
 
 function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n)
@@ -34,12 +33,12 @@ function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n)
 end
 
 function perform_step(integ::Integrator)
-    (; alg, f, u, p, t, dt, df) = integ
+    (; alg, f, u, p, t, dt) = integ
 
     u = step(integ)
     t += dt
 
-    Integrator(alg, f, u, p, t, dt, df)
+    Integrator(alg, f, u, p, t, dt)
 end
 
 include("forward_euler.jl")
