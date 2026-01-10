@@ -4,10 +4,18 @@ using LinearAlgebra: norm, diagm
 
     function solve_example(u0, alg)
 
-        f(u) = exp.(u) .- 1
-        df(u) = diagm(exp.(u))
+        J(u) = LinearOperator(
+            (y, v) -> y .= diagm(exp.(u)) * v,
+            zeros(2),
+            zeros(2)
+        )
 
-        prob = NonlinearProblem(f, df, u0)
+        A = NonlinearOperator(
+            (y, u) -> y .= exp.(u) .- 1,
+            zeros(2),
+            zeros(2)
+        )
+        prob = NonlinearProblem(A, J, u0)
 
         u★ = [0.0, 0.0]
 
@@ -18,13 +26,13 @@ using LinearAlgebra: norm, diagm
 
         sol, _, prob, alg = solve_example([0.2, 1.3], alg)
         (; atol, maxiter) = alg
-        (; u, fu, iter, converged) = sol
-        (; f, u0) = prob
+        (; u, Au, iter, converged) = sol
+        (; u0) = prob
 
         @testset "Interface" begin
 
             @test size(u) == size(u0)
-            @test norm(fu) < atol
+            @test norm(Au) < atol
             @test iter < maxiter
             @test converged
         end

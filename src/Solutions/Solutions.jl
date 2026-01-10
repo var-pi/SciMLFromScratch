@@ -38,17 +38,17 @@ end
 
 abstract type AbstractNonlinearSolution <: AbstractSciMLSolution end
 
-struct NonlinearSolution{U} <: AbstractNonlinearSolution
-    u::U
-    fu::U
+struct NonlinearSolution{I,O} <: AbstractNonlinearSolution
+    u::I
+    Au::O
     iter::Int
     converged::Bool
 end
 
 function NonlinearSolution(state::NonlinearState)
-    (; u, fu, iter, converged) = state
+    (; u, Au, iter, converged) = state
 
-    NonlinearSolution(u, fu, iter, converged)
+    NonlinearSolution(u, Au, iter, converged)
 end
 
 abstract type AbstractLinearSolution <: AbstractSciMLSolution end

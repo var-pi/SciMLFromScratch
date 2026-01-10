@@ -2,21 +2,19 @@ using LinearAlgebra: ⋅
 
 abstract type AbstractNonlinearAlgorithm <: AbstractSciMLAlgorithm end
 
-struct NonlinearState{A,U,F,DF}
+struct NonlinearState{A,U,Op<:AbstractNonlinearOperator,JOp}
     alg::A
     u::U             # current iterate
-    fu::U            # residual at current iterate
-    f::F             # residual function
-    df::DF           # Jacobian / derivative function (or nothing)
+    Au::U            # residual at current iterate
+    A::Op             # residual function
+    J::JOp           # Jacobian / derivative function (or nothing)
     iter::Int        # iteration counter
     converged::Bool
 end
 
 function init(prob::NonlinearProblem, alg::AbstractNonlinearAlgorithm)
-    u0 = prob.u0
-    f = prob.f
-    df = prob.df
-    NonlinearState(alg, u0, f(u0), f, df, 0, false)
+    (; u0, A, J) = prob
+    NonlinearState(alg, u0, A(u0), A, J, 0, false)
 end
 
 function solve(prob::NonlinearProblem, alg::AbstractNonlinearAlgorithm)
@@ -31,15 +29,15 @@ function solve(prob::NonlinearProblem, alg::AbstractNonlinearAlgorithm)
 end
 
 function perform_step(state::NonlinearState)
-    (; alg, u, fu, f, df, iter, converged) = state
+    (; alg, u, Au, A, J, iter, converged) = state
     (; atol) = alg
 
     u = step(state)
-    fu = f(u)
+    Au = A(u)
     iter += 1
-    converged = fu⋅fu < atol^2
+    converged = Au⋅Au < atol^2
 
-    NonlinearState(alg, u, fu, f, df, iter, converged)
+    NonlinearState(alg, u, Au, A, J, iter, converged)
 end
 
 include("newton.jl")

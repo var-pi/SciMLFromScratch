@@ -25,14 +25,14 @@ end
 
 abstract type AbstractNonlinearProblem <: AbstractSciMLProblem end
 
-struct NonlinearProblem{F,U} <: AbstractNonlinearProblem
-    f::F
-    df::Union{Function, Nothing}
+struct NonlinearProblem{Op<:AbstractNonlinearOperator,U} <: AbstractNonlinearProblem
+    A::Op
+    J::Union{Function, Nothing}
     u0::U
 end
 
-struct _NonlinearProblem{A,U} <: AbstractNonlinearProblem
-    A::A # A(u) = 0, nonlinear operator
+struct _NonlinearProblem{Op,U} <: AbstractNonlinearProblem
+    A::Op # A(u) = 0, nonlinear operator
     u0::U
 end
 
