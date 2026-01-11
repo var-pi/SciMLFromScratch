@@ -4,11 +4,7 @@
     eps::Float64 = 1e-8
 end
 
-function apply(Jv::JvpOperator, v)
-    (; A, u, eps) = Jv
-    ε = eps
-    return (A(u .+ ε .* v) .- A(u)) ./ ε
-end
+apply((; A, u, eps)::JvpOperator, v) = (A(u .+ eps .* v) .- A(u)) ./ eps
 
-prototype_in(Jvp::JvpOperator) = Jvp.u
-prototype_out(Jvp::JvpOperator) = prototype_out(Jvp.A)
+prototype_in(Jop::JvpOperator) = prototype_in(Jop.A)
+prototype_out(Jop::JvpOperator) = prototype_out(Jop.A)
