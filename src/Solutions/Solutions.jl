@@ -1,50 +1,46 @@
 abstract type AbstractLinearSolution <: AbstractSciMLSolution end
 
-struct LinearSolution{U,R} <: AbstractLinearSolution
+struct LinearSolution{U} <: AbstractLinearSolution
     u::U           # final solution vector
-    r::R           # final residual vector
     iter::Int      # number of iterations performed
-    converged::Bool
+    retcode::ReturnCode
 end
 
 function LinearSolution(state::LinearState)
-    (; u, r, iter, converged) = state
+    (; u, iter, retcode) = state
 
-    LinearSolution(u, r, iter, converged)
+    LinearSolution(u, iter, retcode)
 end
 
 abstract type AbstractNonlinearSolution <: AbstractSciMLSolution end
 
-struct NonlinearSolution{I,O} <: AbstractNonlinearSolution
-    u::I
-    Au::O
+struct NonlinearSolution{U} <: AbstractNonlinearSolution
+    u::U
     iter::Int
-    converged::Bool
+    retcode::ReturnCode
 end
 
 function NonlinearSolution(state::NonlinearState)
-    (; u, Au, iter, converged) = state
+    (; u, iter, retcode) = state
 
-    NonlinearSolution(u, Au, iter, converged)
+    NonlinearSolution(u, iter, retcode)
 end
 
 abstract type AbstractODESolution <: AbstractSciMLSolution end
 
-struct ODESolution{T, U, Prob, A} <: AbstractODESolution
-    t::T             # Time points
-    u::U             # State values
-    retcode::Symbol  # Status (e.g., :Success, :MaxIters)
-    prob::Prob       # The original ODEProblem
-    alg::A           # The algorithm used
+struct ODESolution{T,U} <: AbstractODESolution
+    t::T                # Time points
+    u::U                # State values
+    retcode::ReturnCode # Status (e.g., :Success, :MaxIters)
 end
 
 function ODESolution(prob, integ, us, retcode)
     (; tspan) = prob
-    (; alg, dt) = integ
+    (; dt) = integ
 
     ts = StepRangeLen(tspan[1], dt, length(us))
 
-    ODESolution(ts, us, retcode, prob, alg)
+    ODESolution(ts, us, retcode)
 end
 
 export LinearSolution, NonlinearSolution, ODESolution

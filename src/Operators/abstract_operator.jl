@@ -10,4 +10,3 @@ function compose(A::AbstractOperator, B::AbstractOperator)
 end
 
 (A::AbstractOperator)(u) = apply(A, u)
-

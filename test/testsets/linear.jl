@@ -19,16 +19,15 @@ using LinearAlgebra: norm, mul!
 
         sol, _, prob, alg = solve_example(zeros(2), alg)
         (; atol, maxiter) = alg
-        (; u, r, iter, converged) = sol
+        (; u, iter, retcode) = sol
         (; A, u0, b) = prob
 
         @testset "Interface" begin
 
             @test size(u) == size(u0)
             @test norm(A(u) - b) < atol
-            @test size(r) == size(u0)
             @test iter < maxiter
-            @test converged
+            @test retcode == Success
         end
     end
 

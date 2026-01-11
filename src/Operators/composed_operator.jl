@@ -1,4 +1,4 @@
-struct ComposedOperator{A<:AbstractOperator, B<:AbstractOperator} <: AbstractOperator
+struct ComposedOperator{A<:AbstractOperator,B<:AbstractOperator} <: AbstractOperator
     A::A
     B::B
 end

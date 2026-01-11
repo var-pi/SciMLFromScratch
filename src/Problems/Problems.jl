@@ -116,7 +116,7 @@ Arguments:
 This type is solver-agnostic and provides the minimal structural
 information required by explicit, implicit, and adaptive ODE solvers.
 """
-struct ODEProblem{F, U, T, P} <: AbstractODEProblem
+@kwdef struct ODEProblem{F,U,T,P} <: AbstractODEProblem
     f::F
     u0::U
     tspan::T

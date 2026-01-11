@@ -9,20 +9,20 @@ struct LinearState{Alg,Op<:AbstractLinearOperator,I,O}
     u::I           # current iterate
     r::O           # residual r = b - A*x
     iter::Int
-    converged::Bool
+    retcode::ReturnCode
 end
 
 function init(prob::AbstractLinearProblem, alg::AbstractLinearAlgorithm)
     (; A, b, u0) = prob
     r0 = b - A(u0)
-    LinearState(alg, A, b, u0, r0, 0, false)
+    LinearState(alg, A, b, u0, r0, 0, Default)
 end
 
 function solve(prob::AbstractLinearProblem, alg::AbstractLinearAlgorithm)
     state = init(prob, alg)
     (; maxiter) = alg
 
-    while !state.converged && state.iter < maxiter
+    while state.retcode == Default && state.iter < maxiter
         state = perform_step(state)
     end
 
@@ -30,14 +30,14 @@ function solve(prob::AbstractLinearProblem, alg::AbstractLinearAlgorithm)
 end
 
 function perform_step(state::LinearState)
-    (; alg, A, b, iter) = state
+    (; alg, A, b, iter, retcode) = state
     (; atol) = alg
 
     u_new = step(state)
     r_new = b - A(u_new)
-    converged = norm(r_new) < atol
+    (norm(r_new) < atol) && (retcode = Success)
 
-    LinearState(alg, A, b, u_new, r_new, iter + 1, converged)
+    LinearState(alg, A, b, u_new, r_new, iter + 1, retcode)
 end
 
 include("richardson.jl")

@@ -1,6 +1,6 @@
 abstract type AbstractODEAlgorithm <: AbstractSciMLAlgorithm end
 
-struct Integrator{A, F, U, P, T}
+struct Integrator{A,F,U,P,T}
     alg::A
     f::F
     u::U
@@ -24,12 +24,12 @@ function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n)
     us = Vector{typeof(integ.u)}(undef, n)
     us[1] = integ.u
 
-    @inbounds @fastmath for i in 1:(n-1)
+    @inbounds @fastmath for i = 1:(n-1)
         integ = perform_step(integ)
         us[i+1] = integ.u
     end
 
-    ODESolution(prob, integ, us, :Success)
+    ODESolution(prob, integ, us, Success)
 end
 
 function perform_step(integ::Integrator)

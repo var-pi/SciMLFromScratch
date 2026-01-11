@@ -4,12 +4,9 @@ using LinearAlgebra: norm, Diagonal, I
 @testset "Integrators" begin
 
     function solve_example(u0, alg)
-        f = (u, p, t) -> p * u
-        tspan = (0.0, 0.1)
-        p = 2.0
-        prob = ODEProblem(f, u0, tspan, p)
+        prob = ODEProblem(; f = (u, p, t) -> p * u, u0, tspan = (0.0, 0.1), p = 2.0)
         n = 10
-        solve(prob, alg; n = n), n, tspan, p, prob, f
+        solve(prob, alg; n = n), n, prob.tspan, prob.p, prob, prob.f
     end
 
     function check_interface(alg::AbstractODEAlgorithm)
@@ -23,9 +20,7 @@ using LinearAlgebra: norm, Diagonal, I
 
             @test length(sol.t) == length(ts)
             @test all(t -> t[1] ≈ t[2], zip(sol.t, ts))
-            @test retcode == :Success
-            @test sol.prob === prob
-            @test sol.alg === alg
+            @test retcode == Success
 
         end
 
@@ -77,4 +72,3 @@ using LinearAlgebra: norm, Diagonal, I
     end
 
 end
-

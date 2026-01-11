@@ -17,4 +17,3 @@ function apply(A::NonlinearOperator, u)
 end
 
 (A::NonlinearOperator)(u) = apply(A, u)
-
