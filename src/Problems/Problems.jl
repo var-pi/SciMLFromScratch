@@ -62,7 +62,7 @@ where:
 The problem is solver-agnostic and compatible with matrix-free
 linear algebra frameworks.
 """
-struct LinearProblem{Op<:AbstractLinearOperator,B,U} <: AbstractLinearProblem
+@kwdef struct LinearProblem{Op<:AbstractLinearOperator,B,U} <: AbstractLinearProblem
     A::Op
     b::B
     u0::U
