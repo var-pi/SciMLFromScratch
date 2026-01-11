@@ -2,15 +2,16 @@ abstract type AbstractLinearSolution <: AbstractSciMLSolution end
 
 struct LinearSolution{U} <: AbstractLinearSolution
     u::U           # final solution vector
-    iter::Int      # number of iterations performed
+end
+
+LinearSolution(state::LinearState) = LinearSolution(state.u)
+
+struct LinearDiagnostics
+    iter::Int
     retcode::ReturnCode
 end
 
-function LinearSolution(state::LinearState)
-    (; u, iter, retcode) = state
-
-    LinearSolution(u, iter, retcode)
-end
+LinearDiagnostics(state::LinearState) = LinearDiagnostics(state.iter, state.retcode)
 
 abstract type AbstractNonlinearSolution <: AbstractSciMLSolution end
 

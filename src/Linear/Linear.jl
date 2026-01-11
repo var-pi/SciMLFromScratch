@@ -26,7 +26,7 @@ function solve(prob::AbstractLinearProblem, alg::AbstractLinearAlgorithm)
         state = perform_step(state)
     end
 
-    LinearSolution(state)
+    LinearSolution(state), LinearDiagnostics(state)
 end
 
 function perform_step(state::LinearState)
