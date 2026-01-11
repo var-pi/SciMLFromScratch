@@ -50,10 +50,7 @@ using LinearAlgebra: norm, mul!
 
     @testset "Richardson" begin
 
-        α = 0.2                        # Richardson relaxation parameter
-        atol = 1e-8
-        maxiter = 100
-        alg = Richardson(α, atol, maxiter)
+        alg = Richardson()
 
         check_interface(alg)
         check_accuracy(alg, [zeros(2)], [2.28777e-9])

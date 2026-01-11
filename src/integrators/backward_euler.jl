@@ -1,11 +1,7 @@
 import LinearAlgebra: I
 
-struct BackwardEuler{A<:AbstractNonlinearAlgorithm} <: AbstractODEAlgorithm
-    nlalg::A
-end
-
-function BackwardEuler()
-    BackwardEuler(Newton())
+@kwdef struct BackwardEuler{A<:AbstractNonlinearAlgorithm} <: AbstractODEAlgorithm
+    nlalg::A = Newton()
 end
 
 @inline function step(integ::Integrator{<:BackwardEuler})

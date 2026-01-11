@@ -65,7 +65,7 @@ linear algebra frameworks.
 @kwdef struct LinearProblem{Op<:AbstractLinearOperator,B,U} <: AbstractLinearProblem
     A::Op
     b::B
-    u0::U
+    u0::U = zero(prototype_in(A))
 end
 
 

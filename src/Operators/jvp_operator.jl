@@ -9,3 +9,6 @@ function apply(Jv::JvpOperator, v)
     ε = eps
     return (A(u .+ ε .* v) .- A(u)) ./ ε
 end
+
+prototype_in(Jvp::JvpOperator) = Jvp.u
+prototype_out(Jvp::JvpOperator) = prototype_out(Jvp.A)

@@ -23,13 +23,13 @@ function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n)
     integ = init(prob, alg; n)
 
     @fastmath for _ = 1:(n-1)
-        integ = perform_step(integ)
+        integ = perform_step!(integ)
     end
 
     ODESolution(integ), ODEDiagnostics(Success)
 end
 
-function perform_step(integ::Integrator)
+function perform_step!(integ::Integrator)
     (; alg, f, u, p, t, dt) = integ
 
     u = step(integ)

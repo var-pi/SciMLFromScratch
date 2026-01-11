@@ -10,3 +10,5 @@ function compose(A::AbstractOperator, B::AbstractOperator)
 end
 
 (A::AbstractOperator)(u) = apply(A, u)
+prototype_in(A::AbstractOperator) = A.prototype_in
+prototype_out(A::AbstractOperator) = A.prototype_out
