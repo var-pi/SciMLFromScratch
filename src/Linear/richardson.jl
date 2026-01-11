@@ -1,5 +1,3 @@
-using LinearAlgebra: I, eigvals, Matrix
-
 struct Richardson{T} <: AbstractLinearAlgorithm
     α::T        # relaxation parameter
     atol::T
@@ -10,9 +8,9 @@ function Richardson()
     Richardson(0.2, 1e-8, 100)
 end
 
-function step(state::LinearState, ::AbstractLinearProblem, alg::Richardson)
+function step!(state::LinearState, ::AbstractLinearProblem, alg::Richardson)
     (; u, r) = state
     (; α) = alg
 
-    u + α * r
+    u .= u + α * r
 end
