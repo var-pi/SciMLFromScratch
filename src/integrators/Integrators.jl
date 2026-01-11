@@ -9,24 +9,25 @@ end
 init((; u0, tspan)::AbstractODEProblem) = OdeState(; u = copy(u0), t = tspan[1])
 
 function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; dt)
-    integ = init(prob)
+    state = init(prob)
 
-    while integ.t + dt <= prob.tspan[2]
-        perform_step!(integ, prob, alg; dt)
+    while state.t + dt <= prob.tspan[2]
+        perform_step!(state, prob, alg; dt)
     end
 
-    integ.retcode = Success
-    ODESolution(integ), ODEDiagnostics(Success)
+    state.retcode = Success
+
+    ODESolution(state), ODEDiagnostics(state)
 end
 
 function perform_step!(
-    integ::OdeState,
+    state::OdeState,
     prob::AbstractODEProblem,
     alg::AbstractODEAlgorithm;
     dt,
 )
-    step!(integ, prob, alg; dt)
-    integ.t += dt
+    step!(state, prob, alg; dt)
+    state.t += dt
 end
 
 include("forward_euler.jl")

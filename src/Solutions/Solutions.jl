@@ -133,3 +133,5 @@ Stores solver metadata for an ODE problem, including termination status.
 struct ODEDiagnostics <: AbstractSciMLDiagnostics
     retcode::ReturnCode
 end
+
+ODEDiagnostics(state::OdeState) = ODEDiagnostics(state.retcode)
