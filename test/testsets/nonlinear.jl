@@ -9,7 +9,7 @@ using LinearAlgebra: norm, diagm
             zeros(2),
             zeros(2)
         )
-        prob = NonlinearProblem(A, u0)
+        prob = NonlinearProblem(; A, u0)
 
         u★ = [0.0, 0.0]
 

@@ -88,7 +88,7 @@ where:
 External constructions (e.g. finite-difference JVP operators) may be used
 to approximate derivatives for Newton-type solvers.
 """
-struct NonlinearProblem{Op<:AbstractNonlinearOperator,U} <: AbstractNonlinearProblem
+@kwdef struct NonlinearProblem{Op<:AbstractNonlinearOperator,U} <: AbstractNonlinearProblem
     A::Op
     u0::U
 end

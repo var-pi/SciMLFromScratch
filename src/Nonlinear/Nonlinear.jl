@@ -12,7 +12,7 @@ struct NonlinearState{A,U,V,Op<:AbstractNonlinearOperator}
 end
 
 function init(prob::NonlinearProblem, alg::AbstractNonlinearAlgorithm)
-    (; u0, A) = prob
+    (; A, u0) = prob
     NonlinearState(alg, u0, A(u0), A, 0, false)
 end
 

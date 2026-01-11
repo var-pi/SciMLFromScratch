@@ -14,9 +14,9 @@ end
 
     g(x) = x - u - dt * f(x, p, t + dt)
 
-    prob = NonlinearProblem(
-        NonlinearOperator((y, u) -> y .= g(u), u, u),
-        u
+    prob = NonlinearProblem(;
+        A = NonlinearOperator((y, u) -> y .= g(u), u, u),
+        u0 = u
     )
     sol = solve(prob, nlalg)
     sol.u
