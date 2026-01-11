@@ -6,7 +6,7 @@ end
 
 LinearSolution(state::LinearState) = LinearSolution(state.u)
 
-struct LinearDiagnostics
+struct LinearDiagnostics <: AbstractSciMLDiagnostics
     iter::Int
     retcode::ReturnCode
 end
@@ -17,15 +17,17 @@ abstract type AbstractNonlinearSolution <: AbstractSciMLSolution end
 
 struct NonlinearSolution{U} <: AbstractNonlinearSolution
     u::U
+end
+
+NonlinearSolution(state::NonlinearState) = NonlinearSolution(state.u)
+
+struct NonlinearDiagnostics <: AbstractSciMLDiagnostics
     iter::Int
     retcode::ReturnCode
 end
 
-function NonlinearSolution(state::NonlinearState)
-    (; u, iter, retcode) = state
-
-    NonlinearSolution(u, iter, retcode)
-end
+NonlinearDiagnostics(state::NonlinearState) =
+    NonlinearDiagnostics(state.iter, state.retcode)
 
 abstract type AbstractODESolution <: AbstractSciMLSolution end
 

@@ -14,9 +14,9 @@ using LinearAlgebra: norm, diagm
 
     function check_interface(alg::AbstractNonlinearAlgorithm)
 
-        sol, _, prob, alg = solve_example([0.2, 1.3], alg)
+        (sol, diag), _, prob, alg = solve_example([0.2, 1.3], alg)
         (; atol, maxiter) = alg
-        (; u, iter, retcode) = sol
+        (; u), (; iter, retcode) = sol, diag
         (; A, u0) = prob
 
         @testset "Interface" begin
@@ -34,7 +34,7 @@ using LinearAlgebra: norm, diagm
 
             for (u0, err) in zip(u0s, errs)
 
-                sol, u★, _... = solve_example(u0, alg)
+                (sol, _), u★, _... = solve_example(u0, alg)
                 (; u) = sol
 
                 @testset "u0=$(u0)" begin

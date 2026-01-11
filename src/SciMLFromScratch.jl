@@ -3,6 +3,7 @@ module SciMLFromScratch
 abstract type AbstractSciMLProblem end
 abstract type AbstractSciMLAlgorithm end
 abstract type AbstractSciMLSolution end
+abstract type AbstractSciMLDiagnostics end
 
 @enum ReturnCode begin
     Default
