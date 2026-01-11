@@ -2,42 +2,45 @@ using LinearAlgebra: norm
 
 abstract type AbstractLinearAlgorithm <: AbstractSciMLAlgorithm end
 
-struct LinearState{Alg,Op<:AbstractLinearOperator,I,O}
-    alg::Alg
-    A::Op
-    b::O
-    u::I           # current iterate
-    r::O           # residual r = b - A*x
+struct LinearState{U,V}
+    u::U           # current iterate
+    r::V           # residual r = b - A*x
     iter::Int
     retcode::ReturnCode
 end
 
-function init(prob::AbstractLinearProblem, alg::AbstractLinearAlgorithm)
+function init(prob::AbstractLinearProblem)
     (; A, b, u0) = prob
+
     r0 = b - A(u0)
-    LinearState(alg, A, b, u0, r0, 0, Default)
+    LinearState(u0, r0, 0, Default)
 end
 
 function solve(prob::AbstractLinearProblem, alg::AbstractLinearAlgorithm)
-    state = init(prob, alg)
+    state = init(prob)
     (; maxiter) = alg
 
     while state.retcode == Default && state.iter < maxiter
-        state = perform_step(state)
+        state = perform_step(state, prob, alg)
     end
 
     LinearSolution(state), LinearDiagnostics(state)
 end
 
-function perform_step(state::LinearState)
-    (; alg, A, b, iter, retcode) = state
+function perform_step(
+    state::LinearState,
+    prob::AbstractLinearProblem,
+    alg::AbstractLinearAlgorithm,
+)
+    (; iter, retcode) = state
+    (; A, b) = prob
     (; atol) = alg
 
-    u_new = step(state)
+    u_new = step(state, prob, alg)
     r_new = b - A(u_new)
     (norm(r_new) < atol) && (retcode = Success)
 
-    LinearState(alg, A, b, u_new, r_new, iter + 1, retcode)
+    LinearState(u_new, r_new, iter + 1, retcode)
 end
 
 include("richardson.jl")

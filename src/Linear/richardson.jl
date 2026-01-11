@@ -10,8 +10,8 @@ function Richardson()
     Richardson(0.2, 1e-8, 100)
 end
 
-function step(state::LinearState{<:Richardson})
-    (; alg, u, r) = state
+function step(state::LinearState, ::AbstractLinearProblem, alg::Richardson)
+    (; u, r) = state
     (; α) = alg
 
     u + α * r
