@@ -4,13 +4,6 @@ struct Richardson{T} <: AbstractLinearAlgorithm
     maxiter::Int
 end
 
-function Richardson()
-    Richardson(0.2, 1e-8, 100)
-end
+Richardson() = Richardson(0.2, 1e-8, 100)
 
-function step!(state::LinearState, ::AbstractLinearProblem, alg::Richardson)
-    (; u, r) = state
-    (; α) = alg
-
-    u .= u + α * r
-end
+step!((; u, r)::LinearState, ::AbstractLinearProblem, (; α)::Richardson) = u .+= α * r

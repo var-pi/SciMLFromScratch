@@ -9,11 +9,7 @@ abstract type AbstractLinearAlgorithm <: AbstractSciMLAlgorithm end
     retcode::ReturnCode = Default
 end
 
-function init(prob::AbstractLinearProblem)
-    (; A, b, u0) = prob
-
-    LinearState(; u = u0, r = b .- A(u0))
-end
+init((; A, b, u0)::AbstractLinearProblem) = LinearState(; u = u0, r = b .- A(u0))
 
 function solve(prob::AbstractLinearProblem, alg::AbstractLinearAlgorithm)
     state = init(prob)
