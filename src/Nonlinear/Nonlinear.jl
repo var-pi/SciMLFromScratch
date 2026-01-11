@@ -1,42 +1,40 @@
-using LinearAlgebra: ⋅
+using LinearAlgebra: norm
 
 abstract type AbstractNonlinearAlgorithm <: AbstractSciMLAlgorithm end
 
-struct NonlinearState{A,U,V,Op<:AbstractNonlinearOperator}
-    alg::A
-    u::U             # current iterate
-    Au::V            # residual at current iterate
-    A::Op             # residual function
-    iter::Int        # iteration counter
-    retcode::ReturnCode
+@kwdef mutable struct NonlinearState{U,V}
+    u::U
+    r::V
+    iter::Int = 0
+    retcode::ReturnCode = Default
 end
 
-function init(prob::NonlinearProblem, alg::AbstractNonlinearAlgorithm)
-    (; A, u0) = prob
-    NonlinearState(alg, u0, A(u0), A, 0, Default)
-end
+init((; A, u0)::AbstractNonlinearProblem) = NonlinearState(; u = copy(u0), r = A(u0))
 
 function solve(prob::NonlinearProblem, alg::AbstractNonlinearAlgorithm)
-    state = init(prob, alg)
-    (; maxiter) = alg
+    state = init(prob)
 
-    while state.retcode == Default && state.iter < maxiter
-        state = perform_step(state)
+    while state.retcode == Default && state.iter < alg.maxiter
+        perform_step!(state, prob, alg)
     end
 
     NonlinearSolution(state), NonlinearDiagnostics(state)
 end
 
-function perform_step(state::NonlinearState)
-    (; alg, u, Au, A, iter, retcode) = state
-    (; atol) = alg
+function perform_step!(
+    state::NonlinearState,
+    prob::AbstractNonlinearProblem,
+    alg::AbstractNonlinearAlgorithm,
+)
+    (; u, r), (; A), (; atol) = state, prob, alg
 
-    u = step(state)
-    Au = A(u)
-    iter += 1
-    (Au⋅Au < atol^2) && (retcode = Success)
+    step!(state, prob, alg)
 
-    NonlinearState(alg, u, Au, A, iter, retcode)
+    r .= A(u)
+
+    (norm(r) < atol) && (state.retcode = Success)
+
+    state.iter += 1
 end
 
 include("newton.jl")

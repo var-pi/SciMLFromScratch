@@ -9,7 +9,7 @@ abstract type AbstractLinearAlgorithm <: AbstractSciMLAlgorithm end
     retcode::ReturnCode = Default
 end
 
-init((; A, b, u0)::AbstractLinearProblem) = LinearState(; u = u0, r = b .- A(u0))
+init((; A, b, u0)::AbstractLinearProblem) = LinearState(; u = copy(u0), r = b .- A(u0))
 
 function solve(prob::AbstractLinearProblem, alg::AbstractLinearAlgorithm)
     state = init(prob)
@@ -26,14 +26,13 @@ function perform_step!(
     prob::AbstractLinearProblem,
     alg::AbstractLinearAlgorithm,
 )
-    (; u, r) = state
-    (; A, b) = prob
+    (; u, r), (; A, b), (; atol) = state, prob, alg
 
     step!(state, prob, alg)
 
     r .= b .- A(u)
 
-    norm(r) < alg.atol && (state.retcode = Success)
+    norm(r) < atol && (state.retcode = Success)
 
     state.iter += 1
 end

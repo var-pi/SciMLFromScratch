@@ -1,7 +1,7 @@
-struct JvpOperator{Op<:AbstractOperator,U} <: AbstractLinearOperator
+@kwdef struct JvpOperator{Op<:AbstractOperator,U} <: AbstractLinearOperator
     A::Op   # the residual operator
     u::U    # current point where J is evaluated
-    eps::Float64
+    eps::Float64 = 1e-8
 end
 
 function apply(Jv::JvpOperator, v)

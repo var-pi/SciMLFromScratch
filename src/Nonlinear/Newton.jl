@@ -13,11 +13,13 @@ function Newton()
 end
 
 # u_new = u - df(u) \ f(u)
-function step(state::NonlinearState{<:Newton})
-    (; alg, u, Au, A) = state
-    (; linalg) = alg
-
-    prob = LinearProblem(; A = JvpOperator(A, u, 1e-8), b = Au, u0 = zero(Au))
+function step!(
+    (; u, r)::NonlinearState,
+    (; A)::AbstractNonlinearProblem,
+    (; linalg)::AbstractNonlinearAlgorithm,
+)
+    prob = LinearProblem(; A = JvpOperator(; A, u), b = r, u0 = zero(r))
     sol, _ = solve(prob, linalg)
-    u - sol.u
+
+    u .-= sol.u
 end

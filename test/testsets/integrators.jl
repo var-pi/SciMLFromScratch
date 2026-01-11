@@ -62,7 +62,7 @@ using LinearAlgebra: norm, Diagonal, I
         alg = BackwardEuler()
 
         check_interface(alg)
-        check_accuracy(alg, [@SVector([1.0;])], [0.0027583])
+        check_accuracy(alg, [[1.0;]], [0.0027583])
 
     end
 
