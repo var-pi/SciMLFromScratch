@@ -90,7 +90,7 @@ to approximate derivatives for Newton-type solvers.
 """
 @kwdef struct NonlinearProblem{Op<:AbstractNonlinearOperator,U} <: AbstractNonlinearProblem
     A::Op
-    u0::U
+    u0::U = zero(prototype_in(A))
 end
 
 
