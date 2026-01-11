@@ -11,15 +11,11 @@ using LinearAlgebra: norm, Diagonal, I
 
     function check_interface(alg::AbstractODEAlgorithm)
 
-        sol, n, tspan, p, prob, f = solve_example([1.0], alg)
-        (; retcode) = sol
-
-        ts = range(tspan..., n)
+        (_, diag), n, tspan, p, prob, f = solve_example([1.0], alg)
+        (; retcode) = diag
 
         @testset "Interface" begin
 
-            @test length(sol.t) == length(ts)
-            @test all(t -> t[1] ≈ t[2], zip(sol.t, ts))
             @test retcode == Success
 
         end
@@ -31,14 +27,13 @@ using LinearAlgebra: norm, Diagonal, I
         @testset "Accuracy" begin
 
             for (u0, err) in zip(u0s, errs)
-                sol, n, tspan, p, _... = solve_example(u0, alg)
+                (sol, _), n, tspan, p, _... = solve_example(u0, alg)
 
-                ts = range(tspan..., n)
-                us = [u0 .* exp(p * t) for t in ts]
+                u = u0 .* exp(p * tspan[2])
 
                 @testset "u0=$(u0)" begin
 
-                    @test norm(sol.u - us) < err
+                    @test norm(sol.u - u) < err
                 end
             end
         end
@@ -49,7 +44,7 @@ using LinearAlgebra: norm, Diagonal, I
         alg = ForwardEuler()
 
         check_interface(alg)
-        check_accuracy(alg, [[1.0], @SArray([2.0; 3.0])], [0.00482, 0.01736])
+        check_accuracy(alg, [[1.0], @SArray([2.0; 3.0])], [0.0026718, 0.0096332])
 
     end
 
@@ -58,7 +53,7 @@ using LinearAlgebra: norm, Diagonal, I
         alg = RungeKutta4()
 
         check_interface(alg)
-        check_accuracy(alg, [[1.0], @SArray([2.0; 3.0])], [8.7782e-10, 3.1651e-9])
+        check_accuracy(alg, [[1.0], @SArray([2.0; 3.0])], [4.8733e-10, 1.7571e-9])
 
     end
 
@@ -67,7 +62,7 @@ using LinearAlgebra: norm, Diagonal, I
         alg = BackwardEuler()
 
         check_interface(alg)
-        check_accuracy(alg, [@SVector([1.0;])], [0.00497])
+        check_accuracy(alg, [@SVector([1.0;])], [0.0027583])
 
     end
 

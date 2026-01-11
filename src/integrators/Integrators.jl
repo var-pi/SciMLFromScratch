@@ -21,15 +21,12 @@ end
 
 function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n)
     integ = init(prob, alg; n)
-    us = Vector{typeof(integ.u)}(undef, n)
-    us[1] = integ.u
 
-    @inbounds @fastmath for i = 1:(n-1)
+    @fastmath for _ = 1:(n-1)
         integ = perform_step(integ)
-        us[i+1] = integ.u
     end
 
-    ODESolution(prob, integ, us, Success)
+    ODESolution(integ), ODEDiagnostics(Success)
 end
 
 function perform_step(integ::Integrator)

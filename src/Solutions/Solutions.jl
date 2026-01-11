@@ -31,19 +31,18 @@ NonlinearDiagnostics(state::NonlinearState) =
 
 abstract type AbstractODESolution <: AbstractSciMLSolution end
 
-struct ODESolution{T,U} <: AbstractODESolution
-    t::T                # Time points
+struct ODESolution{U} <: AbstractODESolution
     u::U                # State values
-    retcode::ReturnCode # Status (e.g., :Success, :MaxIters)
 end
 
-function ODESolution(prob, integ, us, retcode)
-    (; tspan) = prob
-    (; dt) = integ
+function ODESolution(integ::Integrator)
+    (; u) = integ
 
-    ts = StepRangeLen(tspan[1], dt, length(us))
+    ODESolution(u)
+end
 
-    ODESolution(ts, us, retcode)
+struct ODEDiagnostics <: AbstractSciMLDiagnostics
+    retcode::ReturnCode # Status (e.g., :Success, :MaxIters)
 end
 
 export LinearSolution, NonlinearSolution, ODESolution
