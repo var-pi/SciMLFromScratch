@@ -11,7 +11,6 @@ include("Problems/Problems.jl")
 include("Linear/Linear.jl")
 include("Nonlinear/Nonlinear.jl")
 include("Integrators/Integrators.jl")
-include("Optimizers/Optimizers.jl")
 
 include("Solutions/Solutions.jl")
 

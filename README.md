@@ -53,7 +53,7 @@ The primary objective of this repository is to demystify high-performance librar
 
 ### Optimization Algorithms
 
-> - [x] [**Naive Gradient Descent**](https://en.wikipedia.org/wiki/Gradient_descent) — A pure implementation of the vanilla steepest descent algorithm. 
+> - [ ] [**Naive Gradient Descent**](https://en.wikipedia.org/wiki/Gradient_descent) — A pure implementation of the vanilla steepest descent algorithm. 
 > - **Goal** — Investigate convergence and sensitivity to local minima.
 > 
 > $$\theta_{n+1} = \theta_{n} - \eta \nabla J(\theta_{n})$$

@@ -41,19 +41,6 @@ the time span, and parameters `p`.
 """
 abstract type AbstractODEProblem <: AbstractSciMLProblem end
 
-"""
-    AbstractOptimizationProblem
-
-Base type for optimization problems of the form
-
-    minimize f(u, p)
-
-Subtypes are expected to store an objective function, initial guess,
-parameters, and optionally an analytical gradient when provided.
-"""
-abstract type AbstractOptimizationProblem <: AbstractSciMLProblem end
-
-
 # ---------------------------------------------------------
 # LinearProblem
 # ---------------------------------------------------------
@@ -136,38 +123,8 @@ struct ODEProblem{F, U, T, P} <: AbstractODEProblem
     p::P
 end
 
-
-# ---------------------------------------------------------
-# OptimizationProblem
-# ---------------------------------------------------------
-
-"""
-    OptimizationProblem(f, u0, p, grad)
-
-Represents an optimization problem
-
-    minimize f(u, p)
-
-where:
-
-* `f` is an objective function of the form `f(u, p)`.
-* `u0` is the initial guess.
-* `p` are optional parameters.
-* `grad` is an optional analytical gradient function `(u, p) -> ∇f`.
-
-If `grad` is `nothing`, gradient-based solvers may approximate derivatives
-numerically or via automatic differentiation.
-"""
-struct OptimizationProblem{F, U, P, G} <: AbstractOptimizationProblem
-    f::F
-    u0::U
-    p::P
-    grad::G
-end
-
-
 # ---------------------------------------------------------
 # Exports
 # ---------------------------------------------------------
 
-export ODEProblem, OptimizationProblem, NonlinearProblem, LinearProblem
+export LinearProblem, NonlinearProblem, ODEProblem
