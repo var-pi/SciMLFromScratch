@@ -1,41 +1,32 @@
 abstract type AbstractODEAlgorithm <: AbstractSciMLAlgorithm end
 
-struct Integrator{A,F,U,P,T}
-    alg::A
-    f::F
+@kwdef mutable struct OdeState{U,T}
     u::U
-    p::P
     t::T
-    dt::T
+    retcode::ReturnCode = Default
 end
 
-function init(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n)
-    (; f, u0, tspan, p) = prob
+init((; u0, tspan)::AbstractODEProblem) = OdeState(; u = copy(u0), t = tspan[1])
 
-    t0, t1 = tspan
-    dt = (t1 - t0) / (n - 1)
-    u = u0
+function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; dt)
+    integ = init(prob)
 
-    Integrator(alg, f, u, p, t0, dt)
-end
-
-function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; n)
-    integ = init(prob, alg; n)
-
-    @fastmath for _ = 1:(n-1)
-        integ = perform_step!(integ)
+    while integ.t + dt <= prob.tspan[2]
+        perform_step!(integ, prob, alg; dt)
     end
 
+    integ.retcode = Success
     ODESolution(integ), ODEDiagnostics(Success)
 end
 
-function perform_step!(integ::Integrator)
-    (; alg, f, u, p, t, dt) = integ
-
-    u = step(integ)
-    t += dt
-
-    Integrator(alg, f, u, p, t, dt)
+function perform_step!(
+    integ::OdeState,
+    prob::AbstractODEProblem,
+    alg::AbstractODEAlgorithm;
+    dt,
+)
+    step!(integ, prob, alg; dt)
+    integ.t += dt
 end
 
 include("forward_euler.jl")

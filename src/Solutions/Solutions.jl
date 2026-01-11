@@ -123,7 +123,7 @@ end
 
 Outer constructor: builds an `ODESolution` from an integrator state.
 """
-ODESolution(integ::Integrator) = ODESolution(integ.u)
+ODESolution(integ::OdeState) = ODESolution(integ.u)
 
 """
     ODEDiagnostics(retcode)
