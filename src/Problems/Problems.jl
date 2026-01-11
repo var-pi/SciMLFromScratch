@@ -46,7 +46,7 @@ abstract type AbstractODEProblem <: AbstractSciMLProblem end
 # ---------------------------------------------------------
 
 """
-    LinearProblem(A, u0, b)
+    LinearProblem(A, b, u0)
 
 Represents a linear operator equation
 
@@ -56,16 +56,16 @@ where:
 
 * `A` is an `AbstractLinearOperator`. Solver implementations should rely on operator actions
   rather than explicit matrix representations.
-* `u0` is an initial guess for iterative solvers.
 * `b` is the right-hand side.
+* `u0` is an initial guess for iterative solvers.
 
 The problem is solver-agnostic and compatible with matrix-free
 linear algebra frameworks.
 """
-struct LinearProblem{Op<:AbstractLinearOperator,U,B} <: AbstractLinearProblem
+struct LinearProblem{Op<:AbstractLinearOperator,B,U} <: AbstractLinearProblem
     A::Op
-    u0::U
     b::B
+    u0::U
 end
 
 

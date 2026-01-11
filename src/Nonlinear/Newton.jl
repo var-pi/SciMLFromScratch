@@ -19,8 +19,8 @@ function step(state::NonlinearState{<:Newton})
 
     prob = LinearProblem(
         JvpOperator(A, u, 1e-8),
+        Au,
         zero(Au),
-        Au
     )
     sol = solve(prob, linalg)
     u - sol.u
