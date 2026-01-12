@@ -3,9 +3,13 @@ using LinearAlgebra: norm, Diagonal, I
 @testset "Integrators" begin
 
     function solve_example(u0, alg)
-        prob = ODEProblem(; f = (u, p, t) -> p * u, u0, tspan = (0.0, 0.1), p = 2.0)
+        prob = ODEProblem(;
+            A = OdeOperator((y, u, p, t) -> y .= p .* u, 2.0, zero(u0), zero(u0)),
+            u0,
+            tspan = (0.0, 0.1),
+        )
         dt = 0.01
-        solve(prob, alg; dt), dt, prob.tspan, prob.p, prob, prob.f
+        solve(prob, alg; dt), dt, prob.tspan, prob.A.p, prob, prob.A
     end
 
     function check_interface(alg::AbstractODEAlgorithm)

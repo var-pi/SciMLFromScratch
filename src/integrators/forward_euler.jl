@@ -1,4 +1,4 @@
 struct ForwardEuler <: AbstractODEAlgorithm end
 
-step!((; u, t)::OdeState, (; f, p)::AbstractODEProblem, ::ForwardEuler; dt) =
-    u .+= dt .* f(u, p, t)
+step!((; u, t)::OdeState, (; A)::AbstractODEProblem, ::ForwardEuler; dt) =
+    u .+= dt .* A((u, t))

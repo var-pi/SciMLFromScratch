@@ -5,15 +5,12 @@ import LinearAlgebra: I
 end
 
 @inline function step!(
-    integ::OdeState,
-    prob::AbstractODEProblem,
+    (; u, t)::OdeState,
+    (; A)::AbstractODEProblem,
     (; nlalg)::BackwardEuler;
     dt,
 )
-    (; u, t) = integ
-    (; f, p) = prob
-
-    g(x) = x - u - dt * f(x, p, t + dt)
+    g(x) = x - u - dt * A((x, t + dt))
 
     prob = NonlinearProblem(; A = NonlinearOperator((y, u) -> y .= g(u), u, u), u0 = u)
     sol, _ = solve(prob, nlalg)

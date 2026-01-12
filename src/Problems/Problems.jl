@@ -98,29 +98,10 @@ end
 # ODEProblem
 # ---------------------------------------------------------
 
-"""
-    ODEProblem(f, u0, tspan, p)
-
-Defines an ordinary differential equation initial value problem:
-
-    u' = f(u, p, t),
-    u(t₀) = u₀.
-
-Arguments:
-
-* `f` — vector field `(u, p, t) -> ...`
-* `u0` — initial condition
-* `tspan` — tuple `(t0, t1)`
-* `p` — parameters passed to the vector field
-
-This type is solver-agnostic and provides the minimal structural
-information required by explicit, implicit, and adaptive ODE solvers.
-"""
-@kwdef struct ODEProblem{F,U,T,P} <: AbstractODEProblem
-    f::F
+@kwdef struct ODEProblem{U,T} <: AbstractODEProblem
+    A::OdeOperator
     u0::U
     tspan::T
-    p::P
 end
 
 # ---------------------------------------------------------

@@ -18,7 +18,7 @@ function apply!(y, A::LinearOperator, u)
 end
 
 function apply(A::LinearOperator, u)
-    y = similar(A.prototype_out)
+    y = similar(prototype_out(A))
     apply!(y, A, u)
     y
 end
