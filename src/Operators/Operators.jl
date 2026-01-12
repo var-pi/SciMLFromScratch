@@ -4,6 +4,7 @@ include("nonlinear_operator.jl")
 include("composed_operator.jl")
 include("jvp_operator.jl")
 include("ode_operator.jl")
+include("residual_operator.jl")
 
 export AbstractOperator,
     AbstractLinearOperator,
@@ -12,6 +13,7 @@ export AbstractOperator,
     ComposedOperator,
     JvpOperator,
     OdeOperator,
+    ResidualOperator,
     apply!,
     apply,
     compose

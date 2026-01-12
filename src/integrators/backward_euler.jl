@@ -10,9 +10,7 @@ end
     (; nlalg)::BackwardEuler;
     dt,
 )
-    g(x) = x - u - dt * A((x, t + dt))
-
-    prob = NonlinearProblem(; A = NonlinearOperator((y, u) -> y .= g(u), u, u), u0 = u)
+    prob = NonlinearProblem(; A = BackwardEulerResidualOperator(A, u, t, dt), u0 = u)
     sol, _ = solve(prob, nlalg)
     u .= sol.u
 end
