@@ -5,11 +5,7 @@
 end
 
 # u_new = u - df(u) \ f(u)
-function step!(
-    (; u, r)::NonlinearState,
-    (; A)::AbstractNonlinearProblem,
-    (; linalg)::Newton,
-)
+function step!((; u, r)::NLState, (; A)::AbstractNonlinearProblem, (; linalg)::Newton)
     prob = LinearProblem(; A = JvpOperator(; A, u), b = r)
     sol, _ = solve(prob, linalg)
 

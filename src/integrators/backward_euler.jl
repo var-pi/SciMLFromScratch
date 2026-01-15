@@ -6,7 +6,7 @@ import LinearAlgebra: I
 end
 
 @inline function step!(
-    (; u, t)::OdeState,
+    (; u, t)::ODEState,
     (; A)::AbstractODEProblem,
     (; nlalg, dt)::BackwardEuler,
 )

@@ -45,7 +45,7 @@ end
 
 Outer constructor: builds a `LinearSolution` from a solver `LinearState`.
 """
-LinearSolution(state::LinearState) = LinearSolution(state.u)
+LinearSolution(state::LState) = LinearSolution(state.u)
 
 """
     LinearDiagnostics(iter, retcode)
@@ -63,7 +63,7 @@ end
 
 Outer constructor: builds diagnostics from the solver `LinearState`.
 """
-LinearDiagnostics(state::LinearState) = LinearDiagnostics(state.iter, state.retcode)
+LinearDiagnostics(state::LState) = LinearDiagnostics(state.iter, state.retcode)
 
 # ---------------------------------------------------------
 # Nonlinear Solution & Diagnostics
@@ -83,7 +83,7 @@ end
 
 Outer constructor: builds a `NonlinearSolution` from a solver `NonlinearState`.
 """
-NonlinearSolution(state::NonlinearState) = NonlinearSolution(state.u)
+NonlinearSolution(state::NLState) = NonlinearSolution(state.u)
 
 """
     NonlinearDiagnostics(iter, retcode)
@@ -101,8 +101,7 @@ end
 
 Outer constructor: builds diagnostics from the solver `NonlinearState`.
 """
-NonlinearDiagnostics(state::NonlinearState) =
-    NonlinearDiagnostics(state.iter, state.retcode)
+NonlinearDiagnostics(state::NLState) = NonlinearDiagnostics(state.iter, state.retcode)
 
 # ---------------------------------------------------------
 # ODE Solution & Diagnostics
@@ -123,7 +122,7 @@ end
 
 Outer constructor: builds an `ODESolution` from an integrator state.
 """
-ODESolution(integ::OdeState) = ODESolution(integ.u)
+ODESolution(integ::ODEState) = ODESolution(integ.u)
 
 """
     ODEDiagnostics(retcode)
@@ -134,4 +133,4 @@ struct ODEDiagnostics <: AbstractSciMLDiagnostics
     retcode::ReturnCode
 end
 
-ODEDiagnostics(state::OdeState) = ODEDiagnostics(state.retcode)
+ODEDiagnostics(state::ODEState) = ODEDiagnostics(state.retcode)
