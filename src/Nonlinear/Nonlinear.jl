@@ -11,31 +11,22 @@ end
 
 init((; A, u0)::AbstractNonlinearProblem) = NonlinearState(; u = copy(u0), r = A(u0))
 
-function solve(prob::NonlinearProblem, alg::AbstractNonlinearAlgorithm)
-    state = init(prob)
+step_condition(
+    (; retcode, iter)::NonlinearState,
+    ::AbstractNonlinearProblem,
+    (; maxiter)::AbstractNonlinearAlgorithm,
+) = retcode == Default && iter < maxiter
 
-    while state.retcode == Default && state.iter < alg.maxiter
-        perform_step!(state, prob, alg)
-    end
+after_step!(
+    (; u, r)::NonlinearState,
+    (; A)::AbstractNonlinearProblem,
+    ::AbstractNonlinearAlgorithm,
+) = r .= A(u)
 
-    NonlinearSolution(state), NonlinearDiagnostics(state)
-end
+success_condition((; r)::NonlinearState, (; atol)::AbstractNonlinearAlgorithm) =
+    norm(r) < atol
 
-function perform_step!(
-    state::NonlinearState,
-    prob::AbstractNonlinearProblem,
-    alg::AbstractNonlinearAlgorithm,
-)
-    (; u, r), (; A), (; atol) = state, prob, alg
-
-    step!(state, prob, alg)
-
-    r .= A(u)
-
-    (norm(r) < atol) && (state.retcode = Success)
-
-    state.iter += 1
-end
+finalize(state::NonlinearState) = NonlinearSolution(state), NonlinearDiagnostics(state)
 
 include("newton.jl")
 export AbstractNonlinearAlgorithm, Newton
