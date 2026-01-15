@@ -1,6 +1,6 @@
 abstract type ODEAlg <: AbstractSciMLAlgorithm end
 
-@kwdef mutable struct ODEState{U,T}
+@kwdef mutable struct ODEState{U,T} <: AbstractState
     u::U
     t::T
     iter::Int = 0

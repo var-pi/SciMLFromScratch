@@ -2,7 +2,7 @@ using LinearAlgebra: norm
 
 abstract type NLAlg <: AbstractSciMLAlgorithm end
 
-@kwdef mutable struct NLState{U,V}
+@kwdef mutable struct NLState{U,V} <: AbstractState
     u::U
     r::V
     iter::Int = 0
