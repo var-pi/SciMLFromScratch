@@ -4,4 +4,4 @@
     maxiter::Int = 100
 end
 
-step!((; u, r)::LState, ::AbstractLinearProblem, (; α)::Richardson) = u .+= α * r
+step!((; u, r)::LState, ::LProb, (; α)::Richardson) = u .+= α * r

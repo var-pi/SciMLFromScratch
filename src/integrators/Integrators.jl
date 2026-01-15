@@ -7,17 +7,13 @@ abstract type ODEAlg <: AbstractSciMLAlgorithm end
     retcode::ReturnCode = Default
 end
 
-init((; u0, tspan)::AbstractODEProblem) = ODEState(; u = copy(u0), t = tspan[1])
+init((; u0, tspan)::ODEProb) = ODEState(; u = copy(u0), t = tspan[1])
 
-step_condition((; t)::ODEState, (; tspan)::AbstractODEProblem, (; dt)::ODEAlg) =
-    t + dt <= tspan[2]
+step_condition((; t)::ODEState, (; tspan)::ODEProb, (; dt)::ODEAlg) = t + dt <= tspan[2]
 
-after_step!(state::ODEState, ::AbstractODEProblem, (; dt)::ODEAlg) = state.t += dt
+after_step!(state::ODEState, ::ODEProb, (; dt)::ODEAlg) = state.t += dt
 
-function finalize(state::ODEState)
-    state.retcode = Success
-    ODESolution(state), ODEDiagnostics(state)
-end
+finalize(state::ODEState) = state.retcode = Success
 
 include("forward_euler.jl")
 include("backward_euler.jl")

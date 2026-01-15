@@ -5,11 +5,7 @@ import LinearAlgebra: I
     dt = 0.01
 end
 
-@inline function step!(
-    (; u, t)::ODEState,
-    (; A)::AbstractODEProblem,
-    (; nlalg, dt)::BackwardEuler,
-)
+@inline function step!((; u, t)::ODEState, (; A)::ODEProb, (; nlalg, dt)::BackwardEuler)
     prob = NonlinearProblem(; A = BackwardEulerResidualOperator(A, u, t, dt), u0 = u)
     sol, _ = solve(prob, nlalg)
     u .= sol.u

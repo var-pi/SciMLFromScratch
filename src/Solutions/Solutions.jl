@@ -43,7 +43,7 @@ end
 """
     LinearSolution(state::LinearState)
 
-Outer constructor: builds a `LinearSolution` from a solver `LinearState`.
+Outer constructor: builds a `LinearSolution` from a solver `LState`.
 """
 LinearSolution(state::LState) = LinearSolution(state.u)
 
@@ -61,7 +61,7 @@ end
 """
     LinearDiagnostics(state::LinearState)
 
-Outer constructor: builds diagnostics from the solver `LinearState`.
+Outer constructor: builds diagnostics from the solver `LState`.
 """
 LinearDiagnostics(state::LState) = LinearDiagnostics(state.iter, state.retcode)
 

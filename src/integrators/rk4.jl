@@ -2,7 +2,7 @@
     dt = 0.01
 end
 
-@inline function step!((; u, t)::ODEState, (; A)::AbstractODEProblem, (; dt)::RungeKutta4)
+@inline function step!((; u, t)::ODEState, (; A)::ODEProb, (; dt)::RungeKutta4)
     k1 = A((u, t))
     k2 = A((u + dt*k1/2, t + dt/2))
     k3 = A((u + dt*k2/2, t + dt/2))

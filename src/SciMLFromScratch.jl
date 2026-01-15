@@ -32,10 +32,12 @@ function solve(prob::AbstractSciMLProblem, alg::AbstractSciMLAlgorithm)
     end
 
     finalize(state)
+    solutionConstructor(prob)(state), diagnosticsConstructor(prob)(state)
 end
 
-
 success_condition(state, alg) = false
+
+finalize(_) = return
 
 export solve
 export ReturnCode, Default, Success, MaxIters

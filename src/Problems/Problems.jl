@@ -3,7 +3,7 @@
 # ---------------------------------------------------------
 
 """
-    AbstractLinearProblem
+    LProb
 
 Base type for linear operator equations of the form
 
@@ -14,10 +14,13 @@ and the right-hand side `b`. The operator may be represented either
 as a matrix or an `AbstractLinearOperator` that 
 supports application via `apply(A, v)` or `A * v`.
 """
-abstract type AbstractLinearProblem <: AbstractSciMLProblem end
+abstract type LProb <: AbstractSciMLProblem end
+
+solutionConstructor(::LProb) = LinearSolution
+diagnosticsConstructor(::LProb) = LinearDiagnostics
 
 """
-    AbstractNonlinearProblem
+    NLProb
 
 Base type for nonlinear operator equations of the form
 
@@ -26,10 +29,13 @@ Base type for nonlinear operator equations of the form
 where `A` is a nonlinear operator. Subtypes must specify an operator 
 and an initial guess but impose no additional structure.
 """
-abstract type AbstractNonlinearProblem <: AbstractSciMLProblem end
+abstract type NLProb <: AbstractSciMLProblem end
+
+solutionConstructor(::NLProb) = NonlinearSolution
+diagnosticsConstructor(::NLProb) = NonlinearDiagnostics
 
 """
-    AbstractODEProblem
+    ODEProb
 
 Base type for initial value problems of ordinary differential equations
 
@@ -39,7 +45,11 @@ Base type for initial value problems of ordinary differential equations
 Subtypes should store the vector field `f`, the initial condition `u0`,
 the time span, and parameters `p`.
 """
-abstract type AbstractODEProblem <: AbstractSciMLProblem end
+abstract type ODEProb <: AbstractSciMLProblem end
+
+solutionConstructor(::ODEProb) = ODESolution
+diagnosticsConstructor(::ODEProb) = ODEDiagnostics
+
 
 # ---------------------------------------------------------
 # LinearProblem
@@ -62,7 +72,7 @@ where:
 The problem is solver-agnostic and compatible with matrix-free
 linear algebra frameworks.
 """
-@kwdef struct LinearProblem{Op<:AbstractLinearOperator,B,U} <: AbstractLinearProblem
+@kwdef struct LinearProblem{Op<:AbstractLinearOperator,B,U} <: LProb
     A::Op
     b::B
     u0::U = zero(prototype_in(A))
@@ -88,7 +98,7 @@ where:
 External constructions (e.g. finite-difference JVP operators) may be used
 to approximate derivatives for Newton-type solvers.
 """
-@kwdef struct NonlinearProblem{Op<:AbstractNonlinearOperator,U} <: AbstractNonlinearProblem
+@kwdef struct NonlinearProblem{Op<:AbstractNonlinearOperator,U} <: NLProb
     A::Op
     u0::U = zero(prototype_in(A))
 end
@@ -98,7 +108,7 @@ end
 # ODEProblem
 # ---------------------------------------------------------
 
-@kwdef struct ODEProblem{U,T} <: AbstractODEProblem
+@kwdef struct ODEProblem{U,T} <: ODEProb
     A::OdeOperator
     u0::U
     tspan::T

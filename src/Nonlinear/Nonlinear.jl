@@ -9,16 +9,14 @@ abstract type NLAlg <: AbstractSciMLAlgorithm end
     retcode::ReturnCode = Default
 end
 
-init((; A, u0)::AbstractNonlinearProblem) = NLState(; u = copy(u0), r = A(u0))
+init((; A, u0)::NLProb) = NLState(; u = copy(u0), r = A(u0))
 
-step_condition((; retcode, iter)::NLState, ::AbstractNonlinearProblem, (; maxiter)::NLAlg) =
+step_condition((; retcode, iter)::NLState, ::NLProb, (; maxiter)::NLAlg) =
     retcode == Default && iter < maxiter
 
-after_step!((; u, r)::NLState, (; A)::AbstractNonlinearProblem, ::NLAlg) = r .= A(u)
+after_step!((; u, r)::NLState, (; A)::NLProb, ::NLAlg) = r .= A(u)
 
 success_condition((; r)::NLState, (; atol)::NLAlg) = norm(r) < atol
-
-finalize(state::NLState) = NonlinearSolution(state), NonlinearDiagnostics(state)
 
 include("newton.jl")
 export NLAlg, Newton

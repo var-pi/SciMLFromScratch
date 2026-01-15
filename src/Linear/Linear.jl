@@ -9,16 +9,14 @@ abstract type LAlg <: AbstractSciMLAlgorithm end
     retcode::ReturnCode = Default
 end
 
-init((; A, b, u0)::AbstractLinearProblem) = LState(; u = copy(u0), r = b .- A(u0))
+init((; A, b, u0)::LProb) = LState(; u = copy(u0), r = b .- A(u0))
 
-step_condition((; retcode, iter)::LState, ::AbstractLinearProblem, (; maxiter)::LAlg) =
+step_condition((; retcode, iter)::LState, ::LProb, (; maxiter)::LAlg) =
     retcode == Default && iter < maxiter
 
-after_step!((; u, r)::LState, (; A, b)::AbstractLinearProblem, ::LAlg) = r .= b .- A(u)
+after_step!((; u, r)::LState, (; A, b)::LProb, ::LAlg) = r .= b .- A(u)
 
 success_condition((; r)::LState, (; atol)::LAlg) = norm(r) < atol
-
-finalize(state::LState) = LinearSolution(state), LinearDiagnostics(state)
 
 include("richardson.jl")
 export LAlg, Richardson
