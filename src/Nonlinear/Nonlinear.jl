@@ -1,6 +1,6 @@
 using LinearAlgebra: norm
 
-abstract type AbstractNonlinearAlgorithm <: AbstractSciMLAlgorithm end
+abstract type NLAlg <: AbstractSciMLAlgorithm end
 
 @kwdef mutable struct NonlinearState{U,V}
     u::U
@@ -14,19 +14,14 @@ init((; A, u0)::AbstractNonlinearProblem) = NonlinearState(; u = copy(u0), r = A
 step_condition(
     (; retcode, iter)::NonlinearState,
     ::AbstractNonlinearProblem,
-    (; maxiter)::AbstractNonlinearAlgorithm,
+    (; maxiter)::NLAlg,
 ) = retcode == Default && iter < maxiter
 
-after_step!(
-    (; u, r)::NonlinearState,
-    (; A)::AbstractNonlinearProblem,
-    ::AbstractNonlinearAlgorithm,
-) = r .= A(u)
+after_step!((; u, r)::NonlinearState, (; A)::AbstractNonlinearProblem, ::NLAlg) = r .= A(u)
 
-success_condition((; r)::NonlinearState, (; atol)::AbstractNonlinearAlgorithm) =
-    norm(r) < atol
+success_condition((; r)::NonlinearState, (; atol)::NLAlg) = norm(r) < atol
 
 finalize(state::NonlinearState) = NonlinearSolution(state), NonlinearDiagnostics(state)
 
 include("newton.jl")
-export AbstractNonlinearAlgorithm, Newton
+export NLAlg, Newton

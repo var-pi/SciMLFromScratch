@@ -12,7 +12,7 @@ using LinearAlgebra: norm, diagm
         solve(prob, alg), u★, prob, alg
     end
 
-    function check_interface(alg::AbstractNonlinearAlgorithm)
+    function check_interface(alg::NLAlg)
 
         (sol, diag), _, prob, alg = solve_example([0.2, 1.3], alg)
         (; atol, maxiter) = alg
@@ -28,7 +28,7 @@ using LinearAlgebra: norm, diagm
         end
     end
 
-    function check_accuracy(alg::AbstractNonlinearAlgorithm, u0s, errs)
+    function check_accuracy(alg::NLAlg, u0s, errs)
 
         @testset "Accuracy" begin
 
