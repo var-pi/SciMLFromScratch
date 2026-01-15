@@ -1,4 +1,4 @@
-@kwdef struct Newton{L<:AbstractLinearAlgorithm} <: AbstractNonlinearAlgorithm
+@kwdef struct Newton{L<:LAlg} <: AbstractNonlinearAlgorithm
     linalg::L = Richardson()
     atol::Float64 = 1e-8
     maxiter::Int = 100

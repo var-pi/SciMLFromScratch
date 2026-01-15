@@ -1,6 +1,6 @@
 using LinearAlgebra: norm
 
-abstract type AbstractLinearAlgorithm <: AbstractSciMLAlgorithm end
+abstract type LAlg <: AbstractSciMLAlgorithm end
 
 @kwdef mutable struct LinearState{U,V}
     u::U
@@ -11,31 +11,14 @@ end
 
 init((; A, b, u0)::AbstractLinearProblem) = LinearState(; u = copy(u0), r = b .- A(u0))
 
-function solve(prob::AbstractLinearProblem, alg::AbstractLinearAlgorithm)
-    state = init(prob)
+step_condition((; retcode, iter)::LinearState, ::AbstractLinearProblem, (; maxiter)::LAlg) =
+    retcode == Default && iter < maxiter
 
-    while state.retcode == Default && state.iter < alg.maxiter
-        perform_step!(state, prob, alg)
-    end
+after_step!((; u, r)::LinearState, (; A, b)::AbstractLinearProblem, ::LAlg) = r .= b .- A(u)
 
-    LinearSolution(state), LinearDiagnostics(state)
-end
+success_condition((; r)::LinearState, (; atol)::LAlg) = norm(r) < atol
 
-function perform_step!(
-    state::LinearState,
-    prob::AbstractLinearProblem,
-    alg::AbstractLinearAlgorithm,
-)
-    (; u, r), (; A, b), (; atol) = state, prob, alg
-
-    step!(state, prob, alg)
-
-    r .= b .- A(u)
-
-    norm(r) < atol && (state.retcode = Success)
-
-    state.iter += 1
-end
+finalize(state::LinearState) = LinearSolution(state), LinearDiagnostics(state)
 
 include("richardson.jl")
-export AbstractLinearAlgorithm, Richardson
+export LAlg, Richardson

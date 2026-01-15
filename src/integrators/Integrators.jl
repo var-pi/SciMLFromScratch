@@ -3,6 +3,7 @@ abstract type AbstractODEAlgorithm <: AbstractSciMLAlgorithm end
 @kwdef mutable struct OdeState{U,T}
     u::U
     t::T
+    iter::Int = 0
     retcode::ReturnCode = Default
 end
 
@@ -16,7 +17,6 @@ function solve(prob::AbstractODEProblem, alg::AbstractODEAlgorithm; dt)
     end
 
     state.retcode = Success
-
     ODESolution(state), ODEDiagnostics(state)
 end
 
@@ -28,6 +28,7 @@ function perform_step!(
 )
     step!(state, prob, alg; dt)
     state.t += dt
+    state.iter += 1
 end
 
 include("forward_euler.jl")

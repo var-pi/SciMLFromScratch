@@ -15,7 +15,7 @@ using LinearAlgebra: norm, mul!
         solve(prob, alg), u★, prob, alg
     end
 
-    function check_interface(alg::AbstractLinearAlgorithm)
+    function check_interface(alg::LAlg)
 
         (sol, diag), _, prob, alg = solve_example(zeros(2), alg)
         (; atol, maxiter) = alg
@@ -31,7 +31,7 @@ using LinearAlgebra: norm, mul!
         end
     end
 
-    function check_accuracy(alg::AbstractLinearAlgorithm, u0s, errs)
+    function check_accuracy(alg::LAlg, u0s, errs)
 
         @testset "Accuracy" begin
 

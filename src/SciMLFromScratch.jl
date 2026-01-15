@@ -21,6 +21,19 @@ include("Integrators/Integrators.jl")
 
 include("Solutions/Solutions.jl")
 
+function solve(prob::AbstractSciMLProblem, alg::AbstractSciMLAlgorithm)
+    state = init(prob)
+
+    while step_condition(state, prob, alg)
+        step!(state, prob, alg)
+        after_step!(state, prob, alg)
+        success_condition(state, alg) && (state.retcode = Success)
+        state.iter += 1
+    end
+
+    finalize(state)
+end
+
 export solve
 export ReturnCode, Default, Success, MaxIters
 
