@@ -24,7 +24,7 @@ function solve(prob::AbstractSciMLProblem, alg::AbstractSciMLAlgorithm)
     solutionConstructor(prob)(state), diagnosticsConstructor(prob)(state)
 end
 
-success_condition(state, alg) = false
+success_condition(::AbstractState, ::AbstractSciMLAlgorithm) = false
 
 finalize(::AbstractState) = return
 
