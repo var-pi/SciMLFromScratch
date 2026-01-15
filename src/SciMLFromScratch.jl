@@ -34,6 +34,9 @@ function solve(prob::AbstractSciMLProblem, alg::AbstractSciMLAlgorithm)
     finalize(state)
 end
 
+
+success_condition(state, alg) = false
+
 export solve
 export ReturnCode, Default, Success, MaxIters
 
