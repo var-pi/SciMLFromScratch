@@ -12,15 +12,13 @@ using LinearAlgebra: norm, mul!
 
         u★ = [1.0; 2.0]
 
-        solve(prob, alg), u★, prob, alg
+        solve(prob, alg), u★, prob
     end
 
     function check_interface(alg::LAlg)
 
-        (sol, diag), _, prob, alg = solve_example(zeros(2), alg)
+        ((; u), (; iter, retcode)), _, (; A, u0, b) = solve_example(zeros(2), alg)
         (; atol, maxiter) = alg
-        (; u), (; iter, retcode) = sol, diag
-        (; A, u0, b) = prob
 
         @testset "Interface" begin
 
@@ -37,8 +35,7 @@ using LinearAlgebra: norm, mul!
 
             for (u0, err) in zip(u0s, errs)
 
-                (sol, _), u★, _... = solve_example(u0, alg)
-                (; u) = sol
+                ((; u), _), u★, _... = solve_example(u0, alg)
 
                 @testset "u0=$(u0)" begin
 
