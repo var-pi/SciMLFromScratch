@@ -1,6 +1,8 @@
-struct RungeKutta4 <: AbstractODEAlgorithm end
+@kwdef struct RungeKutta4 <: ODEAlg
+    dt = 0.01
+end
 
-@inline function step!((; u, t)::OdeState, (; A)::AbstractODEProblem, ::RungeKutta4; dt)
+@inline function step!((; u, t)::OdeState, (; A)::AbstractODEProblem, (; dt)::RungeKutta4)
     k1 = A((u, t))
     k2 = A((u + dt*k1/2, t + dt/2))
     k3 = A((u + dt*k2/2, t + dt/2))

@@ -8,11 +8,10 @@ using LinearAlgebra: norm, Diagonal, I
             u0,
             tspan = (0.0, 0.1),
         )
-        dt = 0.01
-        solve(prob, alg; dt), dt, prob.tspan, prob.A.p, prob, prob.A
+        solve(prob, alg), alg.dt, prob.tspan, prob.A.p, prob, prob.A
     end
 
-    function check_interface(alg::AbstractODEAlgorithm)
+    function check_interface(alg::ODEAlg)
 
         (_, diag), dt, tspan, p, prob, f = solve_example([1.0], alg)
         (; retcode) = diag
@@ -25,7 +24,7 @@ using LinearAlgebra: norm, Diagonal, I
 
     end
 
-    function check_accuracy(alg::AbstractODEAlgorithm, u0s, errs)
+    function check_accuracy(alg::ODEAlg, u0s, errs)
 
         @testset "Accuracy" begin
 
