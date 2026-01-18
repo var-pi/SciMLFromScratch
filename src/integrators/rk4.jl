@@ -1,5 +1,5 @@
-@kwdef struct RungeKutta4 <: ODEAlg
-    dt = 0.01
+@kwdef struct RungeKutta4{T} <: ODEAlg
+    dt::T = 0.01
 end
 
 @inline function step!((; u, t)::ODEState, (; A)::ODEProb, (; dt)::RungeKutta4)

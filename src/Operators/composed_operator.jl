@@ -3,4 +3,9 @@ struct ComposedOperator{A<:AbstractOperator,B<:AbstractOperator} <: AbstractOper
     B::B
 end
 
-apply(C::ComposedOperator, u) = apply(C.A, apply(C.B, u))
+compose(A::AbstractOperator, B::AbstractOperator) = ComposedOperator(A, B)
+
+function apply!(y, (; A, B)::ComposedOperator, u)
+    apply!(y, B, u)
+    apply!(y, A, y)
+end

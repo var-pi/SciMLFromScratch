@@ -13,14 +13,4 @@ function LinearOperator(M::AbstractMatrix)
     LinearOperator((y, u) -> mul!(y, M, u), v, v)
 end
 
-function apply!(y, A::LinearOperator, u)
-    A.apply!(y, u)
-end
-
-function apply(A::LinearOperator, u)
-    y = similar(prototype_out(A))
-    apply!(y, A, u)
-    y
-end
-
-(A::LinearOperator)(u) = apply(A, u)
+apply!(y, A::LinearOperator, u) = A.apply!(y, u)

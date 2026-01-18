@@ -15,5 +15,6 @@ after_step!((; u, r)::LState, (; A, b)::LProb, ::LAlg) = r .= b .- A(u)
 
 success_condition((; r)::LState, ::LProb, (; atol)::LAlg) = norm(r) < atol
 
+
 include("richardson.jl")
 export LAlg, Richardson

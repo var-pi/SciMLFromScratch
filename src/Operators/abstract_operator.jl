@@ -1,12 +1,14 @@
 abstract type AbstractOperator end
 
 # Default interface
-function apply(A::AbstractOperator, u)
-    error("apply(::$(typeof(A)), u) not implemented")
+function apply!(y, A::AbstractOperator, u)
+    error("apply!(y, ::$(typeof(A)), u) not implemented")
 end
 
-function compose(A::AbstractOperator, B::AbstractOperator)
-    ComposedOperator(A, B)
+function apply(A::AbstractOperator, u)
+    y = similar(prototype_out(A))
+    apply!(y, A, u)
+    y
 end
 
 (A::AbstractOperator)(u) = apply(A, u)

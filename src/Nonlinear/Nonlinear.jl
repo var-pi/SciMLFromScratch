@@ -15,5 +15,6 @@ after_step!((; u, r)::NLState, (; A)::NLProb, ::NLAlg) = r .= A(u)
 
 success_condition((; r)::NLState, ::NLProb, (; atol)::NLAlg) = norm(r) < atol
 
+
 include("newton.jl")
 export NLAlg, Newton
