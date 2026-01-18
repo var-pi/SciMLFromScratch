@@ -7,8 +7,7 @@ The primary objective of this repository is to demystify high-performance librar
 
 ## 🚀 Current Features
 
-- [**SArray**](https://github.com/JuliaArrays/StaticArrays.jl) — Enforce immutability.
-- [**IIP**](https://en.wikipedia.org/wiki/In-place_algorithm) — Reject in-place operations due to immutability.
+- [**IIP**](https://en.wikipedia.org/wiki/In-place_algorithm) — Support only in-place operations due to large size of arrays obtained from discretization of PDEs.
 
 ### Linear Solvers
 
@@ -26,7 +25,7 @@ The primary objective of this repository is to demystify high-performance librar
 
 ### Numerical Integrators
 
-- [**save_everystep**](https://github.com/SciML/DiffEqBase.jl/blob/e6876e274990fb9e70a870666cdb8678de5330f6/src/solve.jl#L334) — Save intermediate values by default for simplicity.
+- [**save_everystep**](https://github.com/SciML/DiffEqBase.jl/blob/e6876e274990fb9e70a870666cdb8678de5330f6/src/solve.jl#L334) — Do not save intermediate values for simplicity.
 
 > - [x] [**Forward Euler**](https://en.wikipedia.org/wiki/Euler_method) — The fundamental building block of numerical integration for Initial Value Problems.
 > - **Goal** — Understand solver design while exploring Julia internals.
