@@ -1,10 +1,12 @@
 module SciMLFromScratch
 
-include("General.jl")
+include("general.jl")
 
 include("Operators/Operators.jl")
 
 include("Problems/Problems.jl")
+
+include("solve.jl")
 
 include("Linear/Linear.jl")
 include("Nonlinear/Nonlinear.jl")

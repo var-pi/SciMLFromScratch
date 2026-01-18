@@ -2,10 +2,10 @@ using LinearAlgebra: mul!
 
 abstract type AbstractLinearOperator <: AbstractOperator end
 
-struct LinearOperator{F,I,O} <: AbstractLinearOperator
+struct LinearOperator{F,U,V} <: AbstractLinearOperator
     apply!::F           # (y, u) -> y = A(u)
-    prototype_in::I     # u
-    prototype_out::O    # y
+    prototype_in::U     # u
+    prototype_out::V    # y
 end
 
 function LinearOperator(M::AbstractMatrix)

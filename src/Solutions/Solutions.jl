@@ -81,7 +81,7 @@ end
 """
     NonlinearSolution(state::NonlinearState)
 
-Outer constructor: builds a `NonlinearSolution` from a solver `NonlinearState`.
+Outer constructor: builds a `NonlinearSolution` from a solver `NLState`.
 """
 NonlinearSolution(state::NLState) = NonlinearSolution(state.u)
 
@@ -99,7 +99,7 @@ end
 """
     NonlinearDiagnostics(state::NonlinearState)
 
-Outer constructor: builds diagnostics from the solver `NonlinearState`.
+Outer constructor: builds diagnostics from the solver `NLState`.
 """
 NonlinearDiagnostics(state::NLState) = NonlinearDiagnostics(state.iter, state.retcode)
 
