@@ -7,7 +7,7 @@ include("setups/integrators.jl")
 
 function check_interface(alg::AbstractSciMLAlgorithm, u0)
 
-    (_, (; retcode)), _, _ = solve_example(alg, u0)
+    (_, (; retcode)), _, _ = solve_example(u0, alg)
 
     @testset "Interface" begin
         @test retcode == Success
@@ -19,7 +19,7 @@ function check_accuracy(alg::AbstractSciMLAlgorithm, u0s, errs)
     @testset "Accuracy" begin
 
         for (u0, err) in zip(u0s, errs)
-            (sol, _), u★, _ = solve_example(alg, u0)
+            (sol, _), u★, _ = solve_example(u0, alg)
 
             @testset "u0=$(u0)" begin
                 @test norm(sol.u - u★) < err
