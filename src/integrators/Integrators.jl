@@ -1,4 +1,5 @@
 abstract type ODEAlg <: AbstractSciMLAlgorithm end
+maxiter(::ODEAlg) = Inf
 
 @kwdef mutable struct ODEState{U,T} <: AbstractState
     u::U
@@ -9,11 +10,9 @@ end
 
 init((; u0, tspan)::ODEProb) = ODEState(; u = copy(u0), t = tspan[1])
 
-step_condition((; t)::ODEState, (; tspan)::ODEProb, (; dt)::ODEAlg) = t + dt <= tspan[2]
-
 after_step!(state::ODEState, ::ODEProb, (; dt)::ODEAlg) = state.t += dt
 
-finalize(state::ODEState) = state.retcode = Success
+success_condition((; t)::ODEState, (; tspan)::ODEProb, (; dt)::ODEAlg) = t + dt > tspan[2]
 
 include("forward_euler.jl")
 include("backward_euler.jl")

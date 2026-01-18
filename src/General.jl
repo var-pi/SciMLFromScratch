@@ -1,5 +1,6 @@
 abstract type AbstractSciMLProblem end
 abstract type AbstractSciMLAlgorithm end
+maxiter(alg::AbstractSciMLAlgorithm) = alg.maxiter
 abstract type AbstractSciMLSolution end
 abstract type AbstractSciMLDiagnostics end
 abstract type AbstractState end
