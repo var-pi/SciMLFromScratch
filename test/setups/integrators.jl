@@ -1,4 +1,5 @@
 function solve_example(alg::ODEAlg, u0)
+
     prob = ODEProblem(;
         A = OdeOperator((y, u, p, t) -> y .= p .* u, 2.0, zero(u0), zero(u0)),
         u0,

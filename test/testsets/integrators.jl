@@ -1,5 +1,3 @@
-using LinearAlgebra: norm, Diagonal, I
-
 @testset "Integrators" begin
 
     @testset "Forward Euler" begin
