@@ -5,8 +5,7 @@
 end
 
 function apply!(y, (; A, u, eps)::JvpOperator, v)
-    y .= u .+ eps .* v
-    apply!(y, A, y)
+    apply!(y, A, u .+ eps .* v)
     y .-= A(u)
     y ./= eps
 end
