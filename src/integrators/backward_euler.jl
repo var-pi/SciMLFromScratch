@@ -10,8 +10,9 @@ function apply!(y, (; A, u, t, dt)::ResidualOperator{<:BackwardEuler}, x)
     @. y = x - u - dt * y
 end
 
-function apply!(y::ODEState, (; alg, A)::StepOperator{<:BackwardEuler}, (; u, t)::ODEState)
+function apply!(y, (; alg, A)::StepOperator{<:BackwardEuler}, (; u, t))
     (; dt, nlalg) = alg
+
     prob = NonlinearProblem(; A = ResidualOperator{BackwardEuler}(A, u, t, dt), u0 = u)
     sol, _ = solve(prob, nlalg)
 
