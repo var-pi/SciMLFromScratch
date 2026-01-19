@@ -13,7 +13,7 @@ export AbstractOperator,
     ComposedOperator,
     JvpOperator,
     OdeOperator,
-    BackwardEulerResidualOperator,
+    ResidualOperator,
     apply!,
     apply,
     compose

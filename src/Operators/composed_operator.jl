@@ -9,3 +9,6 @@ function apply!(y, (; A, B)::ComposedOperator, u)
     apply!(y, B, u)
     apply!(y, A, y)
 end
+
+prototype_in((; B)::ComposedOperator) = prototype_in(B)
+prototype_out((; A)::ComposedOperator) = prototype_out(A)

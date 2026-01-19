@@ -6,7 +6,7 @@ import LinearAlgebra: I
 end
 
 @inline function step!((; u, t)::ODEState, (; A)::ODEProb, (; nlalg, dt)::BackwardEuler)
-    prob = NonlinearProblem(; A = BackwardEulerResidualOperator(A, u, t, dt), u0 = u)
+    prob = NonlinearProblem(; A = ResidualOperator{BackwardEuler}(A, u, t, dt), u0 = u)
     sol, _ = solve(prob, nlalg)
     u .= sol.u
 end
