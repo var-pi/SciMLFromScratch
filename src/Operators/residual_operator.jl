@@ -1,4 +1,4 @@
-struct ResidualOperator{AlgT<:AbstractSciMLAlgorithm,Op,U,T} <: AbstractNonlinearOperator
+struct ResidualOperator{AlgT<:ODEAlg,Op<:OdeOperator,U,T} <: AbstractNonlinearOperator
     A::Op
     u::U
     t::T
@@ -6,11 +6,6 @@ struct ResidualOperator{AlgT<:AbstractSciMLAlgorithm,Op,U,T} <: AbstractNonlinea
 
     ResidualOperator{AlgT}(A::Op, u::U, t::T, dt::T) where {AlgT,Op,U,T} =
         new{AlgT,Op,U,T}(A, u, t, dt)
-end
-
-function apply!(y, (; A, u, t, dt)::ResidualOperator, x)
-    apply!(y, A, (x, t + dt))
-    @. y = x - u - dt * y
 end
 
 prototype_in(R::ResidualOperator) = prototype_in(R.A)[1]

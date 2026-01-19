@@ -1,7 +1,5 @@
 using LinearAlgebra: norm
 
-abstract type LAlg <: AbstractSciMLAlgorithm end
-
 @kwdef mutable struct LState{U,V} <: AbstractState
     u::U
     r::V

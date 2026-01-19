@@ -10,3 +10,8 @@ end
     sol, _ = solve(prob, nlalg)
     u .= sol.u
 end
+
+function apply!(y, (; A, u, t, dt)::ResidualOperator{BackwardEuler}, x)
+    apply!(y, A, (x, t + dt))
+    @. y = x - u - dt * y
+end

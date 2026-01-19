@@ -1,6 +1,3 @@
-abstract type ODEAlg <: AbstractSciMLAlgorithm end
-maxiter(::ODEAlg) = Inf
-
 @kwdef mutable struct ODEState{U,T} <: AbstractState
     u::U
     t::T
