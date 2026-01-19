@@ -9,10 +9,7 @@ init((; u0, tspan)::ODEProb) = ODEState(; u = copy(u0), t = tspan[1])
 
 success_condition((; t)::ODEState, (; tspan)::ODEProb, (; dt)::ODEAlg) = t + dt > tspan[2]
 
-function apply!(y, S::StepOperator{<:ODEAlg}, (; u, t))
-    _apply!(y, S, (; u, t))
-    y.t = t + S.alg.dt
-end
+update_params!(y, S::StepOperator{<:ODEAlg}, (; t)) = y.t = t + S.alg.dt
 
 include("forward_euler.jl")
 include("backward_euler.jl")

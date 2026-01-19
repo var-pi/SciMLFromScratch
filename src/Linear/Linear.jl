@@ -10,10 +10,7 @@ end
 
 init((; A, b, u0)::LProb) = LState(; u = copy(u0), b, r = b .- A(u0))
 
-function apply!(y, S::StepOperator{<:LAlg}, (; u, b, r))
-    _apply!(y, S, (; u, b, r))
-    y.r .= b .- S.A(u)
-end
+update_params!(y, S::StepOperator{<:LAlg}, (; u, b)) = y.r .= b .- S.A(u)
 
 success_condition((; r)::LState, ::LProb, (; atol)::LAlg) = norm(r) < atol
 

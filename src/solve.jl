@@ -10,6 +10,11 @@ function solve(prob::AbstractSciMLProblem, alg::AbstractSciMLAlgorithm)
     solutionConstructor(prob)(state), diagnosticsConstructor(prob)(state)
 end
 
+function apply!(y, S::StepOperator{<:AbstractSciMLAlgorithm}, x)
+    _apply!(y, S, x)
+    update_params!(y, S, x)
+end
+
 success_condition(::AbstractState, ::AbstractSciMLProblem, ::AbstractSciMLAlgorithm) = false
 
 
