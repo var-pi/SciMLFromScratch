@@ -1,4 +1,4 @@
-@kwdef struct StepOperator{Alg<:ODEAlg,Op} <: AbstractNonlinearOperator
+@kwdef struct StepOperator{Alg<:AbstractSciMLAlgorithm,Op} <: AbstractNonlinearOperator
     alg::Alg
     A::Op
 end

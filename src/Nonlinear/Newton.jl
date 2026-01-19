@@ -5,9 +5,12 @@
 end
 
 # u_new = u - df(u) \ f(u)
-function step!((; u, r)::NLState, (; A)::NLProb, (; linalg)::Newton)
+function apply!(y, (; alg, A)::StepOperator{<:Newton}, (; u, r))
+    (; linalg) = alg
+
     prob = LinearProblem(; A = JvpOperator(; A, u), b = r)
     sol, _ = solve(prob, linalg)
 
-    u .-= sol.u
+    y.u .= u - sol.u
+    y.r .= A(u)
 end

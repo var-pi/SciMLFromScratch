@@ -9,10 +9,7 @@ end
 
 init((; A, u0)::NLProb) = NLState(; u = copy(u0), r = A(u0))
 
-after_step!((; u, r)::NLState, (; A)::NLProb, ::NLAlg) = r .= A(u)
-
 success_condition((; r)::NLState, ::NLProb, (; atol)::NLAlg) = norm(r) < atol
-
 
 include("newton.jl")
 export NLAlg, Newton

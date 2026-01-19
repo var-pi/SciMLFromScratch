@@ -4,4 +4,9 @@
     maxiter::Int = 100
 end
 
-step!((; u, r)::LState, ::LProb, (; α)::Richardson) = u .+= α * r
+function apply!(y, (; alg, A)::StepOperator{<:Richardson}, (; u, b, r))
+    (; α) = alg
+
+    @. y.u = u + α * r
+    r .= b .- A(u)
+end
