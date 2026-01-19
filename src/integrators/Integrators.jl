@@ -7,9 +7,10 @@ end
 
 init((; u0, tspan)::ODEProb) = ODEState(; u = copy(u0), t = tspan[1])
 
-after_step!(state::ODEState, ::ODEProb, (; dt)::ODEAlg) = state.t += dt
-
 success_condition((; t)::ODEState, (; tspan)::ODEProb, (; dt)::ODEAlg) = t + dt > tspan[2]
+
+step!(state::ODEState, (; A)::ODEProb, alg::ODEAlg) =
+    apply!(state, StepOperator(; alg, A), state)
 
 include("forward_euler.jl")
 include("backward_euler.jl")

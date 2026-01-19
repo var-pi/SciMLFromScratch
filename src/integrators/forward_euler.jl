@@ -2,4 +2,8 @@
     dt::T = 0.01
 end
 
-step!((; u, t)::ODEState, (; A)::ODEProb, (; dt)::ForwardEuler) = u .+= dt .* A((u, t))
+function apply!(y::ODEState, (; alg, A)::StepOperator{<:ForwardEuler}, (; u, t)::ODEState)
+    (; dt) = alg
+    y.u .= u .+ dt .* A((u, t))
+    y.t = t + dt
+end

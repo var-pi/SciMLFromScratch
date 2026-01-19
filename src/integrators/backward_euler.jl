@@ -5,13 +5,16 @@ import LinearAlgebra: I
     dt = 0.01
 end
 
-@inline function step!((; u, t)::ODEState, (; A)::ODEProb, (; nlalg, dt)::BackwardEuler)
-    prob = NonlinearProblem(; A = ResidualOperator{BackwardEuler}(A, u, t, dt), u0 = u)
-    sol, _ = solve(prob, nlalg)
-    u .= sol.u
-end
-
-function apply!(y, (; A, u, t, dt)::ResidualOperator{BackwardEuler}, x)
+function apply!(y, (; A, u, t, dt)::ResidualOperator{<:BackwardEuler}, x)
     apply!(y, A, (x, t + dt))
     @. y = x - u - dt * y
+end
+
+function apply!(y::ODEState, (; alg, A)::StepOperator{<:BackwardEuler}, (; u, t)::ODEState)
+    (; dt, nlalg) = alg
+    prob = NonlinearProblem(; A = ResidualOperator{BackwardEuler}(A, u, t, dt), u0 = u)
+    sol, _ = solve(prob, nlalg)
+
+    y.u .= sol.u
+    y.t = t + dt
 end

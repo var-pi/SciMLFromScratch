@@ -5,6 +5,7 @@ include("composed_operator.jl")
 include("jvp_operator.jl")
 include("ode_operator.jl")
 include("residual_operator.jl")
+include("step_operator.jl")
 
 export AbstractOperator,
     AbstractLinearOperator,
