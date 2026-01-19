@@ -2,7 +2,7 @@
     dt::T = 0.01
 end
 
-function apply!(y, (; alg, A)::StepOperator{<:RungeKutta4}, (; u, t))
+function _apply!(y, (; alg, A)::StepOperator{<:RungeKutta4}, (; u, t))
     (; dt) = alg
 
     k1 = A((u, t))
@@ -11,5 +11,4 @@ function apply!(y, (; alg, A)::StepOperator{<:RungeKutta4}, (; u, t))
     k4 = A((u + dt*k3, t + dt))
 
     y.u .+= dt/6 * (k1 + 2k2 + 2k3 + k4)
-    y.t = t + dt
 end
