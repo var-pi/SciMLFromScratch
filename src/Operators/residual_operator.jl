@@ -8,5 +8,5 @@ struct ResidualOperator{Alg<:ODEAlg,Op<:OdeOperator,U,T} <: AbstractNonlinearOpe
         new{Alg,Op,U,T}(A, u, t, dt)
 end
 
+wrapped_op(R::ResidualOperator) = R.A
 prototype_in(R::ResidualOperator) = prototype_in(R.A)[1]
-prototype_out(R::ResidualOperator) = prototype_out(R.A)

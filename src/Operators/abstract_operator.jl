@@ -11,6 +11,10 @@ function apply(A::AbstractOperator, u)
     y
 end
 
+wrapped_op(::AbstractOperator) = nothing
+
 (A::AbstractOperator)(u) = apply(A, u)
-prototype_in(A::AbstractOperator) = A.prototype_in
-prototype_out(A::AbstractOperator) = A.prototype_out
+prototype_in(A::AbstractOperator) =
+    (op = wrapped_op(A); isnothing(op) ? A.prototype_in : prototype_in(op))
+prototype_out(A::AbstractOperator) =
+    (op = wrapped_op(A); isnothing(op) ? A.prototype_out : prototype_out(op))

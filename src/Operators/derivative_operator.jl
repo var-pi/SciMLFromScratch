@@ -9,9 +9,7 @@ function apply!(y, (; A, eps)::DerivativeOperator, (u, v))
     y ./= eps
 end
 
-prototype_in(Dop::DerivativeOperator) = prototype_in(Dop.A)
-prototype_out(Dop::DerivativeOperator) = prototype_out(Dop.A)
-
+wrapped_op(D::DerivativeOperator) = D.A
 
 @kwdef struct SecondDerivativeOperator{Op<:AbstractOperator} <: AbstractLinearOperator
     A::Op
@@ -21,5 +19,4 @@ end
 apply!(y, (; A, eps)::SecondDerivativeOperator, (u, v, w)) =
     apply!(y, JvpOperator(; A = DirectionalDerivativeOperator(; A, v, eps), u, eps), w)
 
-prototype_in(Dop::SecondDerivativeOperator) = prototype_in(Dop.A)
-prototype_out(Dop::SecondDerivativeOperator) = prototype_out(Dop.A)
+wrapped_op(D::SecondDerivativeOperator) = D.A

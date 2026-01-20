@@ -8,5 +8,4 @@ DirectionalDerivativeOperator(; A::AbstractOperator, v, eps = 1e-8) =
 
 apply!(y, (; A, v)::DirectionalDerivativeOperator, u) = apply!(y, A, (u, v))
 
-prototype_in(ddop::DirectionalDerivativeOperator) = prototype_in(ddop.A)
-prototype_out(ddop::DirectionalDerivativeOperator) = prototype_out(ddop.A)
+wrapped_op(D::DirectionalDerivativeOperator) = D.A

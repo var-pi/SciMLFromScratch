@@ -8,5 +8,4 @@ JvpOperator(; A::AbstractOperator, u, eps = 1e-8) =
 
 apply!(y, (; A, u)::JvpOperator, v) = apply!(y, A, (u, v))
 
-prototype_in(Jop::JvpOperator) = prototype_in(Jop.A)
-prototype_out(Jop::JvpOperator) = prototype_out(Jop.A)
+wrapped_op(A::JvpOperator) = A.A

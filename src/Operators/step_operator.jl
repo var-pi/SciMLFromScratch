@@ -3,5 +3,4 @@
     A::Op
 end
 
-prototype_in((; A)::StepOperator) = prototype_in(A)
-prototype_out((; A)::StepOperator) = prototype_out(A)
+wrapped_op(A::StepOperator) = A.A

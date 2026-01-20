@@ -7,5 +7,4 @@ end
 apply!(y, (; A, u, eps)::HvvpOperator, (v, w)) =
     apply!(y, SecondDerivativeOperator(; A, eps), (u, v, w))
 
-prototype_in(Hop::HvvpOperator) = prototype_in(Hop.A)
-prototype_out(Hop::HvvpOperator) = prototype_out(Hop.A)
+wrapped_op(A::HvvpOperator) = A.A
