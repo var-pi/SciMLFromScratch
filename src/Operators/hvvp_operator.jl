@@ -5,7 +5,7 @@
 end
 
 apply!(y, (; A, u, eps)::HvvpOperator, (v, w)) =
-    apply!(y, JvpOperator(; A = DirectionalDerivativeOperator(; A, v, eps), u, eps), w)
+    apply!(y, SecondDerivativeOperator(; A, eps), (u, v, w))
 
 prototype_in(Hop::HvvpOperator) = prototype_in(Hop.A)
 prototype_out(Hop::HvvpOperator) = prototype_out(Hop.A)
