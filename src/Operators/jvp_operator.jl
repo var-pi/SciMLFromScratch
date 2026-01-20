@@ -1,5 +1,5 @@
 @kwdef struct JvpOperator{Op<:AbstractOperator,U} <: AbstractLinearOperator
-    A::Op   # the residual operator
+    A::Op
     u::U    # current point where J is evaluated
     eps::Float64 = 1e-8
 end
